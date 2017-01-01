@@ -13,9 +13,11 @@ import {
   Button,
   Linking,
 } from 'react-native';
-import Config from './config.js'
 import store from 'react-native-simple-store';
 import Frisbee from 'frisbee';
+import Config from './config.js'
+
+import PostListView from './src/components/PostListView.js'
 
 export default class esaReactNative extends Component {
   constructor(props) {
@@ -68,7 +70,7 @@ export default class esaReactNative extends Component {
     return (
       <View style={styles.container}>
         { this.state.authorized ?
-          <Text>Authorized</Text> :
+          <PostListView/> :
           <View>
             <Text> Not Authorized </Text>
             <Button title='Authorize' onPress={this.authorize}/>
