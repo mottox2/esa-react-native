@@ -17,28 +17,26 @@ export default class PostListView extends Component {
   constructor(props) {
     super(props)
 
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      posts: [],
+      dataSource: ds
     }
   }
 
   async componentDidMount() {
     const accessToken = await store.get('accessToken')
     const posts = await api.jwt(accessToken).get('/v1/teams/kobit/posts')
-    debugger
-    this.setState({ posts: posts.body.posts })
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts) })
   }
 
   render() {
     return (
       <View>
-        {this.state.posts.map((post) => {
-          return (
-            <View>
-              <Text>{post.name}</Text>
-            </View>
-          )
-        })}
+        <Text>ListView</Text>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={(row) => <Text>{row.name}</Text>}
+        />
       </View>
     )
   }
