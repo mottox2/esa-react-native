@@ -23,14 +23,14 @@ export default class esaReactNative extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      authorized: true
+      authorized: false
     }
     Linking.addEventListener('url', event => this.handleOpenURL(event))
   }
   async componentDidMount() {
     console.log('componentDidMount')
     var accessToken = await store.get('accessToken')
-    if (!accessToken) this.setState({ authorized: false })
+    if (accessToken) this.setState({ authorized: true })
   }
   componentWillUnmount() {
     Linking.removeEventListener('url');
@@ -63,7 +63,7 @@ export default class esaReactNative extends Component {
     })
     const responseJson = await response.json()
     console.log(responseJson)
-    await store.save('access_token', responseJson.access_token)
+    await store.save('accessToken', responseJson.access_token)
     this.setState({authorized: true})
   }
   render() {
