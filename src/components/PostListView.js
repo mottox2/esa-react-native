@@ -38,17 +38,17 @@ export default class PostListView extends Component {
   render() {
     return (
       <View>
-        <Text>ListView</Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={(row) => <View style={styles.row}>
             <Image
               source={{uri: row.created_by.icon}}
-              style={{width: 44, height: 44}}
+              style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
             />
             <View style={styles.content}>
               <Text style={styles.category}>{row.category}</Text>
               <Text style={styles.title}>{row.name}</Text>
+              <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
             </View>
           </View>}
         />
@@ -60,18 +60,30 @@ export default class PostListView extends Component {
 const styles = StyleSheet.create({
   row: {
     marginTop: 8,
-    marginBottom: 8,
     flexDirection: 'row',
+    paddingLeft: 12,
   },
   content: {
     flex: 1,
+    borderBottomColor: '#ddd', //'#F0F0F0',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    minHeight: 44,
+    paddingRight: 12,
+    paddingBottom: 8,
   },
   category: {
     color: '#9DA4AF',
     fontSize: 11,
+    marginBottom: 2,
   },
   title: {
     color: '#3C4A60',
     fontSize: 15,
+    lineHeight: 21,
+  },
+  createdBy: {
+    color: '#9DA4AF',
+    fontSize: 11,
+    marginTop: 4,
   }
 });
