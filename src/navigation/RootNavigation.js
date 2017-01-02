@@ -53,6 +53,28 @@ export default class RootNavigation extends Component {
             initialRoute={Router.getRoute('list')}
           />
         </TabItem>
+
+        <TabItem
+          id="starred"
+          title="Starred"
+          renderIcon={() => this.renderIcon('star')}
+        >
+          <StackNavigation
+            id="starred"
+            initialRoute={Router.getRoute('list')}
+          />
+        </TabItem>
+
+        <TabItem
+          id="profile"
+          title="MyPosts"
+          renderIcon={() => this.renderIcon('person')}
+        >
+          <StackNavigation
+            id="profile"
+            initialRoute={Router.getRoute('list')}
+          />
+        </TabItem>
       </TabNavigation>
     )
   }
