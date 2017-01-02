@@ -5,16 +5,25 @@ import {
   View,
   ListView,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
 import postsData from '../../posts.js';
+
+import Router from '../navigation/Router.js'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
 export default class ListScreen extends Component {
+  static route = {
+    navigationBar: {
+      title: 'Posts'
+    },
+  }
+
   constructor(props) {
     super(props)
 
@@ -22,6 +31,7 @@ export default class ListScreen extends Component {
     this.state = {
       dataSource: ds
     }
+    this.goToDetail = this.goToDetail.bind(this)
   }
 
   async componentDidMount() {
@@ -34,22 +44,28 @@ export default class ListScreen extends Component {
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts) })
   }
 
+  goToDetail() {
+    this.props.navigator.push(Router.getRoute('detail'));
+  }
+
   render() {
     return (
       <View>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(row) => <View style={styles.row}>
-            <Image
-              source={{uri: row.created_by.icon}}
-              style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
-            />
-            <View style={styles.content}>
-              <Text style={styles.category}>{row.category}</Text>
-              <Text style={styles.title}>{row.name}</Text>
-              <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
-            </View>
-          </View>}
+          renderRow={(row) => <TouchableHighlight onPress={this.goToDetail} underlayColor='#eeeeee'>
+            <View style={styles.row}>
+	      <Image
+		source={{uri: row.created_by.icon}}
+		style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
+	      />
+	      <View style={styles.content}>
+		<Text style={styles.category}>{row.category}</Text>
+		<Text style={styles.title}>{row.name}</Text>
+		<Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
+	      </View>
+	    </View>
+          </TouchableHighlight>}
         />
       </View>
     )

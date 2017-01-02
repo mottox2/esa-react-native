@@ -9,7 +9,7 @@ import {
 } from '@exponent/ex-navigation';
 
 // import { FontAwesome } from '@exponent/vector-icons';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Router from './Router.js'
 
@@ -18,9 +18,13 @@ export default class RootNavigation extends Component {
     return (
       <Icon
         name={name}
-        size={24}
+        size={28}
       />
     )
+  }
+
+  componentDidMount() {
+      // this.props.navigator.push(Router.getRoute('detail'))
   }
 
   render() {
@@ -41,8 +45,8 @@ export default class RootNavigation extends Component {
 
         <TabItem
           id="list"
-          title="Posts"
-          renderIcon={() => this.renderIcon('file-text-o')}
+          title="Recent"
+          renderIcon={() => this.renderIcon('insert-drive-file')}
         >
           <StackNavigation
             id="list"
