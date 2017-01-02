@@ -19,6 +19,10 @@ import Config from './config.js'
 
 import PostListView from './src/components/PostListView.js'
 
+const api = new Frisbee({
+  baseURI: 'https://api.esa.io'
+})
+
 export default class esaReactNative extends Component {
   constructor(props) {
     console.disableYellowBox = true;
@@ -68,7 +72,11 @@ export default class esaReactNative extends Component {
     })
     const responseJson = await response.json()
     console.log(responseJson)
-    await store.save('accessToken', responseJson.access_token)
+    const accessToken = responseJson.access_token
+    await store.save('accessToken', accessToken)
+    const user = await api.jwt(accessToken).get('/v1/user')
+    await store.save('screenName', user.body.screen_name)
+    console.log('screen_name', user.body.screen_name)
     this.setState({authorized: true, isLoading: false})
   }
   render() {
