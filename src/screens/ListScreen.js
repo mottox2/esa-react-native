@@ -17,6 +17,19 @@ const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
+const queryMap = (tabId, screenName) => {
+  switch (tabId) {
+  case 'recent':
+    return ''
+  case 'starred':
+    return '?q=starred:true'
+  case 'profile':
+    return `?q=@${screenName}`
+  default:
+    console.log(`Unknown tabId: ${tabId}`)
+  }
+}
+
 export default class ListScreen extends Component {
   static route = {
     navigationBar: {
@@ -35,17 +48,20 @@ export default class ListScreen extends Component {
   }
 
   async componentDidMount() {
-    // const accessToken = await store.get('accessToken')
-    // const posts = await api.jwt(accessToken).get('/v1/teams/kobit/posts')
-    let posts = {}
-    posts.body = postsData;
+    const accessToken = await store.get('accessToken')
+    const screenName = await store.get('screenName')
+    const tabId = this.props.route.params.tabId
+    const query = queryMap(tabId, screenName)
+
+    const posts = await api.jwt(accessToken).get('/v1/teams/docs/posts' + query)
+    // let posts = {}
+    // posts.body = postsData;
 
     console.log(posts.body)
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts) })
   }
 
   goToDetail(post) {
-  // console.log(post)
     this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
   }
 

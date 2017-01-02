@@ -12,7 +12,6 @@ import {
   TabNavigationItem as TabItem,
 } from '@exponent/ex-navigation';
 
-// import { FontAwesome } from '@exponent/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Router from './Router.js'
@@ -28,23 +27,17 @@ export default class RootNavigation extends Component {
     )
   }
 
-  componentDidMount() {
-      // this.props.navigator.push(Router.getRoute('detail'))
-  }
-
   render() {
     return(
       <TabNavigation
         id="main"
-        initialTab="list">
+        initialTab="home">
         <TabItem
           id="home"
           title="Home"
-          selectedStyle={styles.selectedTab}
           renderIcon={isSelected => this.renderIcon('home', isSelected)}
         >
           <StackNavigation
-            id="home"
             initialRoute={Router.getRoute('home')}
           />
         </TabItem>
@@ -55,8 +48,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
           <StackNavigation
-            id="list"
-            initialRoute={Router.getRoute('list')}
+            initialRoute={Router.getRoute('list', { tabId: 'recent' })}
           />
         </TabItem>
 
@@ -66,8 +58,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('star', isSelected)}
         >
           <StackNavigation
-            id="starred"
-            initialRoute={Router.getRoute('list')}
+            initialRoute={Router.getRoute('list', { tabId: 'starred' })}
           />
         </TabItem>
 
@@ -77,8 +68,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('person', isSelected)}
         >
           <StackNavigation
-            id="profile"
-            initialRoute={Router.getRoute('list')}
+            initialRoute={Router.getRoute('list', { tabId: 'profile' })}
           />
         </TabItem>
       </TabNavigation>
