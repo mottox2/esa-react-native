@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 import {
+  StyleSheet,
+} from 'react-native';
+
+import {
   NavigationProvider,
   createRouter,
   StackNavigation,
@@ -14,11 +18,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Router from './Router.js'
 
 export default class RootNavigation extends Component {
-  renderIcon(name, size) {
+  renderIcon(name, isSelected) {
     return (
       <Icon
         name={name}
         size={28}
+        color={isSelected ? '#2DA8A3' : '#9DA4AF'}
       />
     )
   }
@@ -35,7 +40,8 @@ export default class RootNavigation extends Component {
         <TabItem
           id="home"
           title="Home"
-          renderIcon={() => this.renderIcon('home')}
+          selectedStyle={styles.selectedTab}
+          renderIcon={isSelected => this.renderIcon('home', isSelected)}
         >
           <StackNavigation
             id="home"
@@ -46,7 +52,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="list"
           title="Recent"
-          renderIcon={() => this.renderIcon('insert-drive-file')}
+          renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
           <StackNavigation
             id="list"
@@ -57,7 +63,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="starred"
           title="Starred"
-          renderIcon={() => this.renderIcon('star')}
+          renderIcon={isSelected => this.renderIcon('star', isSelected)}
         >
           <StackNavigation
             id="starred"
@@ -68,7 +74,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="profile"
           title="MyPosts"
-          renderIcon={() => this.renderIcon('person')}
+          renderIcon={isSelected => this.renderIcon('person', isSelected)}
         >
           <StackNavigation
             id="profile"
@@ -79,3 +85,9 @@ export default class RootNavigation extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  selectedTab: {
+    color: '#2DA8A3',
+  }
+});
