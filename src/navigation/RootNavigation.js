@@ -31,19 +31,9 @@ export default class RootNavigation extends Component {
     return(
       <TabNavigation
         id="main"
-        initialTab="home">
+        initialTab="recent">
         <TabItem
-          id="home"
-          title="Home"
-          renderIcon={isSelected => this.renderIcon('home', isSelected)}
-        >
-          <StackNavigation
-            initialRoute={Router.getRoute('home')}
-          />
-        </TabItem>
-
-        <TabItem
-          id="list"
+          id="recent"
           title="Recent"
           renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
@@ -59,6 +49,16 @@ export default class RootNavigation extends Component {
         >
           <StackNavigation
             initialRoute={Router.getRoute('list', { tabId: 'starred' })}
+          />
+        </TabItem>
+
+        <TabItem
+          id="watched"
+          title="Watched"
+          renderIcon={isSelected => this.renderIcon('remove-red-eye', isSelected)}
+        >
+          <StackNavigation
+            initialRoute={Router.getRoute('list', { tabId: 'watched' })}
           />
         </TabItem>
 

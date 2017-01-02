@@ -12,6 +12,7 @@ import store from 'react-native-simple-store';
 import postsData from '../../posts.js';
 
 import Router from '../navigation/Router.js'
+import Config from '../../config.js'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
@@ -23,6 +24,8 @@ const queryMap = (tabId, screenName) => {
     return ''
   case 'starred':
     return '?q=starred:true'
+  case 'watched':
+    return '?q=watched:true'
   case 'profile':
     return `?q=@${screenName}`
   default:
@@ -52,8 +55,9 @@ export default class ListScreen extends Component {
     const screenName = await store.get('screenName')
     const tabId = this.props.route.params.tabId
     const query = queryMap(tabId, screenName)
+    const teamName = Config.TEAM_NAME
 
-    const posts = await api.jwt(accessToken).get('/v1/teams/docs/posts' + query)
+    const posts = await api.jwt(accessToken).get('/v1/teams/' + teamName + '/posts' + query)
     // let posts = {}
     // posts.body = postsData;
 
