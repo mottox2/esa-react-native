@@ -10,12 +10,61 @@ import store from 'react-native-simple-store';
 import Frisbee from 'frisbee';
 import postsData from '../../posts.js';
 
+import {
+  NavigationProvider,
+  createRouter,
+  StackNavigation,
+  TabNavigation,
+  TabNavigationItem as TabItem,
+} from '@exponent/ex-navigation';
+
+const Router = createRouter(() => ({
+  home: () => HomeScreen,
+  list: () => ListScreen,
+  tab: () => TabScreen,
+}))
+
+class TabScreen extends Component {
+  render() {
+    return(
+      <TabNavigation
+        id="main"
+        initialTab="list">
+        <TabItem
+          id="home"
+          title="Home"
+        >
+          <StackNavigation
+            id="home"
+            initialRoute={Router.getRoute('home')}
+          />
+        </TabItem>
+
+        <TabItem
+          id="list"
+          title="list"
+        >
+          <StackNavigation
+            id="list"
+            initialRoute={Router.getRoute('list')}
+          />
+        </TabItem>
+      </TabNavigation>
+    )
+  }
+}
+
+class HomeScreen extends Component {
+  render() {
+    return <Text>HomeScreen</Text>
+  }
+}
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
-export default class PostListView extends Component {
+class ListScreen extends Component {
   constructor(props) {
     super(props)
 
@@ -53,6 +102,16 @@ export default class PostListView extends Component {
           </View>}
         />
       </View>
+    )
+  }
+}
+
+export default class PostListView extends Component {
+  render() {
+    return (
+      <NavigationProvider router={Router}>
+        <StackNavigation initialRoute={Router.getRoute('tab')} />
+      </NavigationProvider>
     )
   }
 }
