@@ -5,6 +5,7 @@ import {
   View,
   ListView,
   Image,
+  WebView,
 } from 'react-native';
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
@@ -13,7 +14,27 @@ const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
-export default class ListScreen extends Component {
+const htmlStyles = `
+<style>
+a.anchor {
+  display: none
+}
+</style>
+`
+
+export default class DetailScreen extends Component {
+  static route = {
+    navigationBar: {
+      title(params) {
+        return params.name
+      },
+    },
+  }
+
+  componentDidMount() {
+    console.log(this.props.route.params)
+  }
+
   constructor(props) {
     super(props)
 
@@ -22,43 +43,21 @@ export default class ListScreen extends Component {
     }
   }
 
-
   render() {
     return (
-      <View>
-        <Text>Detail Screen</Text>
+      <View style={styles.container}>
+        <WebView style={styles.webView} source={{ html: htmlStyles + this.props.route.params.body_html }} />
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  row: {
-    marginTop: 8,
-    flexDirection: 'row',
-    paddingLeft: 12,
-  },
-  content: {
+  container: {
     flex: 1,
-    borderBottomColor: '#ddd',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    minHeight: 44,
-    paddingRight: 12,
-    paddingBottom: 8,
+    backgroundColor: '#FFFFFF',
   },
-  category: {
-    color: '#9DA4AF',
-    fontSize: 11,
-    marginBottom: 2,
+  webView: {
+    flex: 1
   },
-  title: {
-    color: '#3C4A60',
-    fontSize: 15,
-    lineHeight: 21,
-  },
-  createdBy: {
-    color: '#9DA4AF',
-    fontSize: 11,
-    marginTop: 4,
-  }
 });

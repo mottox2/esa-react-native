@@ -44,8 +44,9 @@ export default class ListScreen extends Component {
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts) })
   }
 
-  goToDetail() {
-    this.props.navigator.push(Router.getRoute('detail'));
+  goToDetail(post) {
+  // console.log(post)
+    this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
   }
 
   render() {
@@ -53,7 +54,7 @@ export default class ListScreen extends Component {
       <View>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(row) => <TouchableHighlight onPress={this.goToDetail} underlayColor='#eeeeee'>
+          renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
             <View style={styles.row}>
 	      <Image
 		source={{uri: row.created_by.icon}}
