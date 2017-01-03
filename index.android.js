@@ -30,7 +30,7 @@ export default class esaReactNative extends Component {
     super(props)
     this.state = {
       authorized: true, //false
-      isLoading: true,
+      isReady: false,
     }
     Linking.addEventListener('url', event => this.handleOpenURL(event))
   }
@@ -38,8 +38,8 @@ export default class esaReactNative extends Component {
     console.log('componentDidMount')
     var accessToken = await store.get('accessToken')
 
-    if (accessToken) this.setState({ authorized: true, isLoading: false })
-    else this.setState({ authorized: false, isLoading: false})
+    if (accessToken) this.setState({ authorized: true, isReady: true })
+    else this.setState({ authorized: false, isReady: true })
   }
   componentWillUnmount() {
     Linking.removeEventListener('url');
@@ -77,13 +77,12 @@ export default class esaReactNative extends Component {
     const user = await api.jwt(accessToken).get('/v1/user')
     await store.save('screenName', user.body.screen_name)
     console.log('screen_name', user.body.screen_name)
-    this.setState({authorized: true, isLoading: false})
+    this.setState({authorized: true, isReady: true })
   }
   render() {
     return (
       <View style={styles.container}>
-        { this.state.isLoading ?
-          <View><Text>Loading...</Text></View> :
+        { this.state.isReady &&
           <View style={styles.container}>
             { this.state.authorized ?
               <PostListView/> :
