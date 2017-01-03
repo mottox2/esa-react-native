@@ -6,6 +6,7 @@ import {
   ListView,
   Image,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
@@ -45,7 +46,8 @@ export default class ListScreen extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      dataSource: ds
+      dataSource: ds,
+      isLoading: true,
     }
     this.goToDetail = this.goToDetail.bind(this)
   }
@@ -62,7 +64,7 @@ export default class ListScreen extends Component {
     // posts.body = postsData;
 
     console.log(posts.body)
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts) })
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts), isLoading: false })
   }
 
   goToDetail(post) {
@@ -71,29 +73,40 @@ export default class ListScreen extends Component {
 
   render() {
     return (
-      <View>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
-            <View style={styles.row}>
-	      <Image
-		source={{uri: row.created_by.icon}}
-		style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
-	      />
-	      <View style={styles.content}>
-		<Text style={styles.category}>{row.category}</Text>
-		<Text style={styles.title}>{row.name}</Text>
-		<Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
-	      </View>
-	    </View>
-          </TouchableHighlight>}
-        />
+      <View style={styles.container}>
+        { this.state.isLoading ?
+          <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
+              <View style={styles.row}>
+                <Image
+                  source={{uri: row.created_by.icon}}
+                  style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
+                />
+                <View style={styles.content}>
+                  <Text style={styles.category}>{row.category}</Text>
+                  <Text style={styles.title}>{row.name}</Text>
+                  <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
+                </View>
+              </View>
+            </TouchableHighlight>}
+          />
+        }
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  indictorWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   row: {
     marginTop: 8,
     flexDirection: 'row',
