@@ -26,6 +26,7 @@ a {
 body {
   overflow: auto;
   color: #3c4a60;
+  line-height: 1.5;
 }
 pre {
   overflow: auto;
