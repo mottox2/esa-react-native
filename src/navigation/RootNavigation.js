@@ -16,6 +16,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Router from './Router.js'
 
+const defaultRouteConfig = {
+  navigationBar: {
+    backgroundColor: '#2DA8A3',
+    tintColor: '#FFF',
+  }
+}
+
 export default class RootNavigation extends Component {
   renderIcon(name, isSelected) {
     return (
@@ -38,6 +45,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
           <StackNavigation
+            defaultRouteConfig={defaultRouteConfig}
             initialRoute={Router.getRoute('list', { tabId: 'recent' })}
           />
         </TabItem>
@@ -48,6 +56,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('star', isSelected)}
         >
           <StackNavigation
+            defaultRouteConfig={defaultRouteConfig}
             initialRoute={Router.getRoute('list', { tabId: 'starred' })}
           />
         </TabItem>
@@ -58,6 +67,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('remove-red-eye', isSelected)}
         >
           <StackNavigation
+            defaultRouteConfig={defaultRouteConfig}
             initialRoute={Router.getRoute('list', { tabId: 'watched' })}
           />
         </TabItem>
@@ -68,6 +78,7 @@ export default class RootNavigation extends Component {
           renderIcon={isSelected => this.renderIcon('person', isSelected)}
         >
           <StackNavigation
+            defaultRouteConfig={defaultRouteConfig}
             initialRoute={Router.getRoute('list', { tabId: 'profile' })}
           />
         </TabItem>
