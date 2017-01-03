@@ -74,9 +74,9 @@ export default class esaReactNative extends Component {
     console.log(responseJson)
     const accessToken = responseJson.access_token
     await store.save('accessToken', accessToken)
-    const user = await api.jwt(accessToken).get('/v1/user')
-    await store.save('screenName', user.body.screen_name)
-    console.log('screen_name', user.body.screen_name)
+    const user = await api.jwt(accessToken).get('/v1/user?include=teams')
+    await store.save('user', user.body)
+    console.log('screen_name', user.body)
     this.setState({authorized: true, isReady: true })
   }
   render() {
@@ -86,9 +86,10 @@ export default class esaReactNative extends Component {
           <View style={styles.container}>
             { this.state.authorized ?
               <PostListView/> :
-              <View>
-                <Text> Not Authorized </Text>
-                <Button title='Authorize' onPress={this.authorize}/>
+              <View style={{ padding: 16, flex: 1, justifyContent: 'center', backgroundColor: '#EFEDE0'}}>
+                <Text style={{ fontSize: 16, color: '#3C4A60'}}>esa.ioのアカウントでログインしてください</Text>
+                <Text style={{ marginBottom: 16, marginTop: 16, color: '#9DA4AF' }}>アプリの利用にはesa.ioの認証が必要です </Text>
+                <Button title='認証する' color='#E79012' onPress={this.authorize} />
               </View>
             }
           </View>
