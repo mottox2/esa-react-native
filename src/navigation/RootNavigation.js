@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  TouchableNativeFeedback,
 } from 'react-native';
 
 import {
@@ -52,6 +53,8 @@ export default class RootNavigation extends Component {
         <TabItem
           id="recent"
           title="Recent"
+          showsTouches='true'
+          nativeFeedbackBackground={TouchableNativeFeedback.Ripple('#aaa', true)}
           renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
@@ -64,6 +67,8 @@ export default class RootNavigation extends Component {
         <TabItem
           id="starred"
           title="Starred"
+          showsTouches='true'
+          nativeFeedbackBackground={TouchableNativeFeedback.Ripple('#aaa', true)}
           renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('star', isSelected)}
         >
@@ -76,6 +81,8 @@ export default class RootNavigation extends Component {
         <TabItem
           id="watched"
           title="Watched"
+          showsTouches='true'
+          nativeFeedbackBackground={TouchableNativeFeedback.Ripple('#aaa', true)}
           renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('remove-red-eye', isSelected)}
         >
@@ -88,6 +95,8 @@ export default class RootNavigation extends Component {
         <TabItem
           id="profile"
           title="MyPosts"
+          showsTouches='true'
+          nativeFeedbackBackground={TouchableNativeFeedback.Ripple('#aaa', true)}
           renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('person', isSelected)}
         >
