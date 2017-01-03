@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
   StyleSheet,
+  Text,
 } from 'react-native';
 
 import {
@@ -29,8 +30,16 @@ export default class RootNavigation extends Component {
       <Icon
         name={name}
         size={28}
-        color={isSelected ? '#2DA8A3' : '#9DA4AF'}
+        color={isSelected ? '#fff' : '#888'}
       />
+    )
+  }
+
+  renderTitle(isSelected, title) {
+    return(
+      <Text style={{ color: isSelected ? '#fff' : '#888', fontSize: 13, marginTop: 2}}>
+        {title}
+      </Text>
     )
   }
 
@@ -38,10 +47,12 @@ export default class RootNavigation extends Component {
     return(
       <TabNavigation
         id="main"
+        tabBarColor="#222"
         initialTab="recent">
         <TabItem
           id="recent"
           title="Recent"
+          renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('insert-drive-file', isSelected)}
         >
           <StackNavigation
@@ -53,6 +64,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="starred"
           title="Starred"
+          renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('star', isSelected)}
         >
           <StackNavigation
@@ -64,6 +76,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="watched"
           title="Watched"
+          renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('remove-red-eye', isSelected)}
         >
           <StackNavigation
@@ -75,6 +88,7 @@ export default class RootNavigation extends Component {
         <TabItem
           id="profile"
           title="MyPosts"
+          renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
           renderIcon={isSelected => this.renderIcon('person', isSelected)}
         >
           <StackNavigation
