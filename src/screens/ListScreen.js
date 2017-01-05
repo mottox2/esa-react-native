@@ -8,6 +8,9 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
+import InfiniteScrollView from 'react-native-infinite-scroll-view';
+
+
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
 import postsData from '../../posts.js';
@@ -22,13 +25,13 @@ const api = new Frisbee({
 const queryMap = (tabId, screenName) => {
   switch (tabId) {
   case 'recent':
-    return ''
+    return {}
   case 'starred':
-    return '?q=starred:true'
+    return { q: 'starred:true' }
   case 'watched':
-    return '?q=watched:true'
+    return { q: 'watched:true' }
   case 'profile':
-    return `?q=@${screenName}`
+    return { q: `user:${screenName}` }
   default:
     console.log(`Unknown tabId: ${tabId}`)
   }
@@ -39,6 +42,20 @@ export default class ListScreen extends Component {
     navigationBar: {
       title: 'esa.io Android Client \(Beta\)'
     },
+  }
+
+  _loadMoreContentAsync = async () => {
+    if (this.state.isLoadingMore || !this.nextPage) return
+    console.log('More loading')
+    this.setState({ isLoadingMore: true })
+    const accessToken = await store.get('accessToken')
+    const query = Object.assign({}, this.query, { page: this.nextPage })
+    console.log(query)
+    const posts = await api.jwt(accessToken).get(this.requestPath, { body: query })
+    this.nextPage = posts.body.next_page
+    this.posts = this.posts.concat(posts.body.posts)
+    this.setState({ isLoadingMore: false, dataSource: this.state.dataSource.cloneWithRows(this.posts)})
+    console.log('Done: More loading')
   }
 
   constructor(props) {
@@ -58,12 +75,14 @@ export default class ListScreen extends Component {
     const user = await store.get('user')
     const screenName = user.screen_name
     const tabId = this.props.route.params.tabId
-    const query = queryMap(tabId, screenName)
+    this.query = queryMap(tabId, screenName)
     const teamName = Config.TEAM_NAME
+    console.log(this.query)
 
-    this.requestPath = '/v1/teams/' + teamName + '/posts' + query
-    const posts = await api.jwt(accessToken).get(this.requestPath)
+    this.requestPath = '/v1/teams/' + teamName + '/posts'
+    const posts = await api.jwt(accessToken).get(this.requestPath, { body: this.query })
     this.nextPage = posts.body.next_page
+    this.posts = posts.body.posts
     // let posts = {}
     // posts.body = postsData;
 
@@ -84,7 +103,12 @@ export default class ListScreen extends Component {
         { this.state.isLoading ?
           <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
           <ListView
+            renderScrollComponent={props => <InfiniteScrollView {...props} />}
             dataSource={this.state.dataSource}
+            distanceToLoadMore={10}
+            canLoadMore={true}
+            isLoadingMore={true}
+            onLoadMoreAsync={this._loadMoreContentAsync}
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
