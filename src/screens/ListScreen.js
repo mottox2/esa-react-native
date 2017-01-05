@@ -53,6 +53,7 @@ export default class ListScreen extends Component {
     console.log(query)
     const posts = await api.jwt(accessToken).get(this.requestPath, { body: query })
     this.nextPage = posts.body.next_page
+    if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(posts.body.posts)
     this.setState({ isLoadingMore: false, dataSource: this.state.dataSource.cloneWithRows(this.posts)})
     console.log('Done: More loading')
@@ -65,7 +66,8 @@ export default class ListScreen extends Component {
     this.state = {
       dataSource: ds,
       isLoading: true,
-      isLoadingMore: false
+      isLoadingMore: false,
+      canLoadMore: true
     }
     this.goToDetail = this.goToDetail.bind(this)
   }
@@ -82,6 +84,7 @@ export default class ListScreen extends Component {
     this.requestPath = '/v1/teams/' + teamName + '/posts'
     const posts = await api.jwt(accessToken).get(this.requestPath, { body: this.query })
     this.nextPage = posts.body.next_page
+    if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = posts.body.posts
     // let posts = {}
     // posts.body = postsData;
@@ -106,8 +109,8 @@ export default class ListScreen extends Component {
             renderScrollComponent={props => <InfiniteScrollView {...props} />}
             dataSource={this.state.dataSource}
             distanceToLoadMore={10}
-            canLoadMore={true}
-            isLoadingMore={true}
+            canLoadMore={this.state.canLoadMore}
+            isLoadingMore={this.state.isLoading}
             onLoadMoreAsync={this._loadMoreContentAsync}
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
