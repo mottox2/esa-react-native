@@ -48,28 +48,34 @@ export default class ListScreen extends Component {
     this.state = {
       dataSource: ds,
       isLoading: true,
+      isLoadingMore: false
     }
     this.goToDetail = this.goToDetail.bind(this)
   }
 
   async componentDidMount() {
-    // const accessToken = await store.get('accessToken')
-    // const user = await store.get('user')
-    // const screenName = user.screen_name
-    // const tabId = this.props.route.params.tabId
-    // const query = queryMap(tabId, screenName)
-    // const teamName = Config.TEAM_NAME
-    //
-    // const posts = await api.jwt(accessToken).get('/v1/teams/' + teamName + '/posts' + query)
-    let posts = {}
-    posts.body = postsData;
+    const accessToken = await store.get('accessToken')
+    const user = await store.get('user')
+    const screenName = user.screen_name
+    const tabId = this.props.route.params.tabId
+    const query = queryMap(tabId, screenName)
+    const teamName = Config.TEAM_NAME
+
+    this.requestPath = '/v1/teams/' + teamName + '/posts' + query
+    const posts = await api.jwt(accessToken).get(this.requestPath)
+    this.nextPage = posts.body.next_page
+    // let posts = {}
+    // posts.body = postsData;
 
     console.log(posts.body)
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts), isLoading: false })
   }
 
   goToDetail(post) {
-    this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
+    this.props.navigation.performAction(({ tabs, stacks }) => {
+      stacks('root').push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}))
+    });
+    // this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
   }
 
   render() {

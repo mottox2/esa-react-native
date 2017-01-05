@@ -62,6 +62,8 @@ export default class DetailScreen extends Component {
       title(params) {
         return params.name
       },
+      backgroundColor: '#2DA8A3',
+      tintColor: '#FFF',
     },
   }
 

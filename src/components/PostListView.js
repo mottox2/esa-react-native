@@ -22,7 +22,7 @@ export default class PostListView extends Component {
   render() {
     return (
       <NavigationProvider router={Router}>
-        <StackNavigation initialRoute={Router.getRoute('rootNavigation')} />
+        <StackNavigation initialRoute={Router.getRoute('rootNavigation')} navigatorUID='root' />
       </NavigationProvider>
     )
   }
