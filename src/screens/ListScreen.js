@@ -5,7 +5,7 @@ import {
   View,
   ListView,
   Image,
-  TouchableHighlight,
+  TouchableNativeFeedback,
   ActivityIndicator,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
@@ -112,7 +112,7 @@ export default class ListScreen extends Component {
             canLoadMore={this.state.canLoadMore}
             isLoadingMore={this.state.isLoading}
             onLoadMoreAsync={this._loadMoreContentAsync}
-            renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
+            renderRow={(row) => <TouchableNativeFeedback onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
                   source={{uri: row.created_by.icon}}
@@ -124,7 +124,7 @@ export default class ListScreen extends Component {
                   <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
                 </View>
               </View>
-            </TouchableHighlight>}
+            </TouchableNativeFeedback>}
           />
         }
       </View>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   row: {
-    marginTop: 8,
+    paddingTop: 8,
     flexDirection: 'row',
     paddingLeft: 12,
   },
