@@ -78,7 +78,7 @@ export default class ListScreen extends Component {
     const screenName = user.screen_name
     const tabId = this.props.route.params.tabId
     this.query = queryMap(tabId, screenName)
-    const teamName = Config.TEAM_NAME
+    const teamName = await store.get('teamName')
     console.log(this.query)
 
     this.requestPath = '/v1/teams/' + teamName + '/posts'

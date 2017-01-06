@@ -76,7 +76,11 @@ export default class esaReactNative extends Component {
     await store.save('accessToken', accessToken)
     const user = await api.jwt(accessToken).get('/v1/user?include=teams')
     await store.save('user', user.body)
-    console.log('screen_name', user.body)
+    if (user.body.teams.length == 0) {
+      console.log('閲覧出来る記事がありません。esa.ioへの登録が必要です。')
+    } else {
+      await store.save('teamName', user.body.teams[0].name)
+    }
     this.setState({authorized: true, isReady: true })
   }
   render() {
