@@ -105,6 +105,20 @@ export default class RootNavigation extends Component {
             initialRoute={Router.getRoute('list', { tabId: 'profile' })}
           />
         </TabItem>
+
+        <TabItem
+          id="team"
+          title="Team"
+          showsTouches='true'
+          nativeFeedbackBackground={TouchableNativeFeedback.Ripple('#aaa', true)}
+          renderTitle={(isSelected, title) => this.renderTitle(isSelected, title)}
+          renderIcon={isSelected => this.renderIcon('people', isSelected)}
+        >
+          <StackNavigation
+            defaultRouteConfig={defaultRouteConfig}
+            initialRoute={Router.getRoute('team')}
+          />
+        </TabItem>
       </TabNavigation>
     )
   }
