@@ -24,7 +24,7 @@ const api = new Frisbee({
 export default class TeamScreen extends Component {
   static route = {
     navigationBar: {
-      title: 'esa.io Android Client \(Beta\)',
+      title: 'Wing'
     },
   }
 

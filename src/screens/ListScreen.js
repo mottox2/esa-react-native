@@ -40,7 +40,7 @@ const queryMap = (tabId, screenName) => {
 export default class ListScreen extends Component {
   static route = {
     navigationBar: {
-      title: 'esa.io Android Client \(Beta\)'
+      title: 'Wing'
     },
   }
 
