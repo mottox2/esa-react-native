@@ -47,10 +47,7 @@ export default class TeamScreen extends Component {
 
   async componentDidMount() {
     var user = await store.get('user')
-    const teams = user.teams.concat({
-      name: 'docs',
-      icon: 'https://img.esa.io/uploads/production/teams/105/icon/thumb_ms_0537ab827c4b0c18b60af6cdd94f239c.png',
-    })
+    const teams = user.teams
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(teams),
     })
