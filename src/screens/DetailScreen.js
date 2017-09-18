@@ -27,6 +27,10 @@ body {
   overflow: auto;
   color: #3c4a60;
   line-height: 1.5;
+  padding: 16px;
+  margin: 0;
+  font-size: 14px;
+  word-wrap: break-word;
 }
 pre {
   overflow: auto;
@@ -40,17 +44,35 @@ pre {
 iframe, img {
   max-width: 100%;
 }
+ul {
+  margin: 20px 0;
+}
+ul ul, ul ol, ol ol, ol ul {
+  margin: 0
+}
 li {
   margin: 4px 0;
+}
+li.task-list-item {
+  margin-left: -20px;
+  list-style-type: none;
 }
 h2 {
   font-weight: bold;
   border-bottom: 2px solid #ddd;
   padding: 8px 0;
 }
+
 h2 .fa, h3 .fa, h4 .fa {
   color: rgba(60,74,96,0.3);
   margin-right: 4px;
+}
+blockquote {
+  background-color: #f5f5f5;
+  color: #747478;
+  margin: 0 -16px;
+  padding: 8px 16px;
+  font-size: 12px;
 }
 </style>
 <script src="https://use.fontawesome.com/ffb71e0a08.js"></script>
