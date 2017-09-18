@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 import Frisbee from 'frisbee';
@@ -162,8 +163,15 @@ const styles = StyleSheet.create({
 
 export class RecentListScreen  extends ListScreen {
   static navigationOptions = {
-    tabBarLabel: 'Recent',
+    tabBarLabel: 'Home',
     title: 'Recent Posts',
+    tabBarIcon: ({ tintColor }) => (
+      <MaterialIcons
+        name='home'
+        size={30}
+        color={tintColor}
+      />
+    )
   }
 
   constructor(props) {
@@ -179,6 +187,13 @@ export class StarredListScreen  extends ListScreen {
   static navigationOptions = {
     tabBarLabel: 'Starred',
     title: 'Starred Posts',
+    tabBarIcon: ({ tintColor }) => (
+      <MaterialIcons
+        name='star'
+        size={28}
+        color={tintColor}
+      />
+    )
   }
 
   constructor(props) {
@@ -192,8 +207,15 @@ export class StarredListScreen  extends ListScreen {
 
 export class WatchedListScreen  extends ListScreen {
   static navigationOptions = {
-    tabBarLabel: 'Watched',
-    title: 'Watched Posts',
+    tabBarLabel: 'Watching',
+    title: 'Watching Posts',
+    tabBarIcon: ({ tintColor }) => (
+      <MaterialIcons
+        name='visibility'
+        size={28}
+        color={tintColor}
+      />
+    )
   }
 
   constructor(props) {

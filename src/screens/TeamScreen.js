@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import { NavigationActions } from 'react-navigation'
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 import Frisbee from 'frisbee';
@@ -26,6 +27,13 @@ export default class TeamScreen extends Component {
   static navigationOptions = {
     tabBarLabel: 'Teams',
     title: 'Switch Team',
+    tabBarIcon: ({ tintColor }) => (
+      <MaterialIcons
+        name='group'
+        size={28}
+        color={tintColor}
+      />
+    )
   }
 
   constructor(props) {
