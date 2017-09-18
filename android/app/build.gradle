@@ -87,7 +87,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.esareactnative"
+        applicationId "com.mottox2.wing"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 5

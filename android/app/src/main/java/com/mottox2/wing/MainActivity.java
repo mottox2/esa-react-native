@@ -1,4 +1,4 @@
-package com.esareactnative;
+package com.mottox2.wing;
 
 import com.facebook.react.ReactActivity;
 
