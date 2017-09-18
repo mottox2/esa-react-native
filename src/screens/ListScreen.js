@@ -13,7 +13,6 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
-import postsData from '../../posts.js';
 
 import Router from '../navigation/Router.js'
 import Config from '../../config.js'

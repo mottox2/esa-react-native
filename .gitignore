@@ -43,3 +43,5 @@ android/app/libs
 
 # ENV
 .env
+
+config.js
