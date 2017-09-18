@@ -38,10 +38,8 @@ const queryMap = (tabId, screenName) => {
 }
 
 export default class ListScreen extends Component {
-  static route = {
-    navigationBar: {
-      title: 'Wing'
-    },
+  static navigationOptions = {
+    title: 'Wing'
   }
 
   _loadMoreContentAsync = async () => {
@@ -122,7 +120,7 @@ export default class ListScreen extends Component {
                 />
                 <View style={styles.content}>
                   <Text style={styles.category}>{row.category}</Text>
-                  <Text style={styles.title}>aaaaa{row.name}</Text>
+                  <Text style={styles.title}>{row.name}</Text>
                   <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
                 </View>
               </View>

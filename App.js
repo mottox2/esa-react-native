@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Linking, Button } from 'react-native';
 import store from 'react-native-simple-store';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
 import Config from './config.js'
 
@@ -10,6 +11,19 @@ import ListScreen from './src/screens/ListScreen.js'
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
+
+const MainScreenNavigator = TabNavigator({
+  Home: { screen: ListScreen },
+}, {
+  tabBarComponent: TabBarBottom,
+  tabBarPosition: 'bottom',
+});
+
+const Navigator = StackNavigator({
+  Main: { screen: MainScreenNavigator },
+  // Main: { screen: MainScreen },
+  // Article: { screen: ArticleDetailScreen },
+});
 
 export default class App extends React.Component {
   constructor(props) {
@@ -79,7 +93,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    return this.state.accessToken ? <ListScreen/> : <View>
+    return this.state.accessToken ? <Navigator/> : <View>
       <Text>Open up App.js to start working on your app!</Text>
       <Text>Changes you make will automatically reload.</Text>
       <Text>Shake your phone to open the developer menu.</Text>
