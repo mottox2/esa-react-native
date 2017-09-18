@@ -68,31 +68,37 @@ export default class TeamScreen extends Component {
   }
 
   render() {
-    return ( this.state.isLoading ?
-      <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
-      <ListView
-        dataSource={this.state.dataSource}
-        removeClippedSubviews={false}
-        renderRow={(row) => <TouchableHighlight onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
-          <View style={styles.row}>
-            <Image
-              source={{uri: row.icon}}
-              style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
-            />
-            <View style={styles.content}>
-              <Text style={styles.category}>{row.name}</Text>
-              <Text style={styles.title}>{row.name}</Text>
-              <Text style={styles.createdBy}>Created by {row.name}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>}
-      />)
+    return (
+      <View style={styles.container}>
+        { this.state.isLoading ?
+          <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
+          <ListView
+            dataSource={this.state.dataSource}
+            removeClippedSubviews={false}
+            renderRow={(row) => <TouchableHighlight onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
+              <View style={styles.row}>
+                <Image
+                  source={{uri: row.icon}}
+                  style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
+                />
+                <View style={styles.content}>
+                  <Text style={styles.category}>{row.url}</Text>
+                  <Text style={styles.title}>{row.name}</Text>
+                  <Text style={styles.createdBy}>Created by {row.name}</Text>
+                </View>
+              </View>
+            </TouchableHighlight>}
+          />
+        }
+      </View>
+    )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   indictorWrapper: {
     flex: 1,
@@ -119,6 +125,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#3C4A60',
+    fontWeight: '500',
     fontSize: 15,
     lineHeight: 21,
   },

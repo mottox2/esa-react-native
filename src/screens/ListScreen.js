@@ -100,6 +100,7 @@ export default class ListScreen extends Component {
             isLoadingMore={this.state.isLoading}
             onLoadMoreAsync={this._loadMoreContentAsync}
             removeClippedSubviews={false}
+            enableEmptySections={true}
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
@@ -152,6 +153,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#3C4A60',
     fontSize: 15,
+    fontWeight: "500",
     lineHeight: 21,
   },
   createdBy: {
