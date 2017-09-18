@@ -104,11 +104,11 @@ export default class App extends React.Component {
 
   render() {
     return (this.state.accessToken && false) ? <Navigator/> : <View style={styles.container}>
-      <View style={{ flex: 2, backgroundColor: '#09807A', justifyContent: 'center', padding: 16, alignItems: 'center' }}>
-        <Image source={require('./assets/images/wing.png')} style={{ height: 90, resizeMode: 'contain' }} />
-        <Text style={{fontSize: 16, color: 'white', lineHeight: 26, marginTop: 12, textAlign: 'center' }}>WINGはドキュメント共有サービスesa.ioの{"\n"}非公式クライアントアプリです。</Text>
+      <View style={styles.onboardingHeader}>
+        <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
+        <Text style={styles.onboardingDescription}>WINGはドキュメント共有サービスesa.ioの{"\n"}非公式クライアントアプリです。</Text>
       </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
+      <View style={styles.onboardingFooter}>
         <Text style={{ opacity: 0.6 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
         <Button
           title='esa.ioと連携する'
@@ -128,5 +128,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     justifyContent: 'center',
+  },
+  onboardingHeader: {
+    flex: 2,
+    backgroundColor: '#09807A',
+    justifyContent: 'center',
+    padding: 16,
+    alignItems: 'center',
+  },
+  onboardingLogo: {
+    height: 90,
+    resizeMode: 'contain',
+  },
+  onboardingDescription: {
+    fontSize: 16,
+    color: 'white',
+    lineHeight: 26,
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  onboardingFooter: {
+   flex: 1,
+   justifyContent: 'center',
+   alignItems: 'center',
+   padding: 16,
   },
 });
