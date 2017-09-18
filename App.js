@@ -4,6 +4,7 @@ import store from 'react-native-simple-store';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
 import Config from './config.js'
+import { Constants } from 'expo'
 
 // import PostListView from './src/components/PostListView.js'
 import ListScreen, { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen.js'
@@ -52,11 +53,16 @@ export default class App extends React.Component {
   }
 
   authorize() {
+    // ex. exp://exp.host/@community/with-webbrowser-redirect/+
+    let redirectUri = Constants.linkingUri
+    redirectUri = redirectUri.replace('+', 'authorize')
+    console.log(redirectUri)
+
     Linking.openURL([
       'https://api.esa.io/oauth/authorize',
       '?response_type=code',
       '&client_id=' + Config.CLIENT_ID,
-      '&redirect_uri=' + Config.REDIRECT_URI,
+      '&redirect_uri=' + redirectUri,
     ].join(''))
 
   }
