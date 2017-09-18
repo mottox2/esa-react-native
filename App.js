@@ -6,7 +6,7 @@ import Frisbee from 'frisbee';
 import Config from './config.js'
 
 // import PostListView from './src/components/PostListView.js'
-import ListScreen, { RecentListScreen } from './src/screens/ListScreen.js'
+import ListScreen, { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen.js'
 import DetailScreen from './src/screens/DetailScreen.js'
 import TeamScreen from './src/screens/TeamScreen.js'
 
@@ -15,8 +15,9 @@ const api = new Frisbee({
 })
 
 const MainScreenNavigator = TabNavigator({
-  Home: { screen: ListScreen },
   Recent: { screen: RecentListScreen },
+  Starred: { screen: StarredListScreen },
+  Watched: { screen: WatchedListScreen },
   Team: { screen: TeamScreen },
 }, {
   tabBarComponent: TabBarBottom,

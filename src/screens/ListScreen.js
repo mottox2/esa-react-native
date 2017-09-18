@@ -22,21 +22,6 @@ const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
-const queryMap = (tabId, screenName) => {
-  switch (tabId) {
-  case 'recent':
-    return {}
-  case 'starred':
-    return { q: 'starred:true' }
-  case 'watched':
-    return { q: 'watched:true' }
-  case 'profile':
-    return { q: `user:${screenName}` }
-  default:
-    console.log(`Unknown tabId: ${tabId}`)
-  }
-}
-
 export default class ListScreen extends Component {
   static navigationOptions = {
     title: 'Wing'
@@ -73,11 +58,9 @@ export default class ListScreen extends Component {
   async componentDidMount() {
     const accessToken = await store.get('accessToken')
     const user = await store.get('user')
-    // const screenName = user.screen_name
-    const screenName = 'mottox2'
-    // const tabId = this.props.route.params.tabId
-    const tabId = 'recent'
-    this.query = queryMap(tabId, screenName)
+    const screenName = user.screen_name
+    this.query = this.navigationParams(screenName)
+    console.log('query:', this.query)
     const teamName = await store.get('teamName')
     console.log(this.query)
 
@@ -97,6 +80,10 @@ export default class ListScreen extends Component {
     this.props.navigation.navigate('Detail', {
       name: post.name, number: post.number, body_html: post.body_html
     })
+  }
+
+  navigationParams() {
+    return {}
   }
 
   render() {
@@ -173,9 +160,61 @@ const styles = StyleSheet.create({
 });
 
 export class RecentListScreen  extends ListScreen {
+  static navigationOptions = {
+    tabBarLabel: 'Recent',
+    title: 'Recent Posts',
+  }
+
   constructor(props) {
     super(props)
   }
 
-  navigationParams = () => {}
+  navigationParams() {
+    return {}
+  }
+}
+
+export class StarredListScreen  extends ListScreen {
+  static navigationOptions = {
+    tabBarLabel: 'Starred',
+    title: 'Starred Posts',
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  navigationParams() {
+    return { q: 'starred:true' }
+  }
+}
+
+export class WatchedListScreen  extends ListScreen {
+  static navigationOptions = {
+    tabBarLabel: 'Watched',
+    title: 'Watched Posts',
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  navigationParams() {
+    return { q: 'watched:true' }
+  }
+}
+
+export class ProfileListScreen  extends ListScreen {
+  static navigationOptions = {
+    tabBarLabel: 'Mine',
+    title: 'My Posts',
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  navigationParams(screenName) {
+    return { q: `user:${screenName}` }
+  }
 }
