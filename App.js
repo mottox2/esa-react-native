@@ -6,7 +6,8 @@ import Frisbee from 'frisbee';
 import Config from './config.js'
 
 // import PostListView from './src/components/PostListView.js'
-import ListScreen from './src/screens/ListScreen.js'
+import ListScreen, { RecentListScreen } from './src/screens/ListScreen.js'
+import DetailScreen from './src/screens/DetailScreen.js'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
@@ -14,6 +15,7 @@ const api = new Frisbee({
 
 const MainScreenNavigator = TabNavigator({
   Home: { screen: ListScreen },
+  Recent: { screen: RecentListScreen },
 }, {
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
@@ -21,8 +23,7 @@ const MainScreenNavigator = TabNavigator({
 
 const Navigator = StackNavigator({
   Main: { screen: MainScreenNavigator },
-  // Main: { screen: MainScreen },
-  // Article: { screen: ArticleDetailScreen },
+  Detail: { screen: DetailScreen },
 });
 
 export default class App extends React.Component {

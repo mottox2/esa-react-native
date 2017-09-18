@@ -172,3 +172,11 @@ const styles = StyleSheet.create({
     marginTop: 4,
   }
 });
+
+export class RecentListScreen  extends ListScreen {
+  constructor(props) {
+    super(props)
+  }
+
+  navigationParams = () => {}
+}
