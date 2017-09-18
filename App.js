@@ -4,7 +4,7 @@ import store from 'react-native-simple-store';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
 import Config from './config.js'
-import { Constants } from 'expo'
+import { Constants, LinearGradient } from 'expo'
 
 // import PostListView from './src/components/PostListView.js'
 import ListScreen, { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen.js'
@@ -105,8 +105,10 @@ export default class App extends React.Component {
   render() {
     return (this.state.accessToken && false) ? <Navigator/> : <View style={styles.container}>
       <View style={styles.onboardingHeader}>
-        <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
-        <Text style={styles.onboardingDescription}>WINGはドキュメント共有サービスesa.ioの{"\n"}非公式クライアントアプリです。</Text>
+        <LinearGradient colors={['#18CAC5', '#09807A']} style={styles.onboardingGradient}>
+          <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
+          <Text style={styles.onboardingDescription}>WINGはドキュメント共有サービスesa.ioの{"\n"}非公式クライアントアプリです。</Text>
+        </LinearGradient>
       </View>
       <View style={styles.onboardingFooter}>
         <Text style={{ opacity: 0.6 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
@@ -131,9 +133,11 @@ const styles = StyleSheet.create({
   },
   onboardingHeader: {
     flex: 2,
-    backgroundColor: '#09807A',
-    justifyContent: 'center',
+  },
+  onboardingGradient: {
     padding: 16,
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   onboardingLogo: {
@@ -143,6 +147,7 @@ const styles = StyleSheet.create({
   onboardingDescription: {
     fontSize: 16,
     color: 'white',
+    backgroundColor: 'transparent',
     lineHeight: 26,
     marginTop: 12,
     textAlign: 'center',
