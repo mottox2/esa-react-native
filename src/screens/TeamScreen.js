@@ -6,15 +6,16 @@ import {
   ListView,
   Image,
   TouchableNativeFeedback,
+  TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
+import { NavigationActions } from 'react-navigation'
 
 
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
 
-import Router from '../navigation/Router.js'
 import Config from '../../config.js'
 
 const api = new Frisbee({
@@ -40,9 +41,13 @@ export default class TeamScreen extends Component {
   async switchTeam(row) {
     console.log(row)
     await store.save('teamName', row.name)
-    this.props.navigation.performAction(({ tabs, stacks }) => {
-      stacks('root').replace(Router.getRoute('rootNavigation'))
-    });
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Main'})
+      ]
+    })
+    this.props.navigation.dispatch(resetAction)
   }
 
   async componentDidMount() {
@@ -60,7 +65,7 @@ export default class TeamScreen extends Component {
           <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(row) => <TouchableNativeFeedback onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
+            renderRow={(row) => <TouchableHighlight onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
                   source={{uri: row.icon}}
@@ -72,7 +77,7 @@ export default class TeamScreen extends Component {
                   <Text style={styles.createdBy}>Created by {row.name}</Text>
                 </View>
               </View>
-            </TouchableNativeFeedback>}
+            </TouchableHighlight>}
           />
         }
       </View>
