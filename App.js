@@ -4,14 +4,28 @@ import store from 'react-native-simple-store';
 import Frisbee from 'frisbee';
 import Config from './config.js'
 
+// import PostListView from './src/components/PostListView.js'
+import ListScreen from './src/screens/ListScreen.js'
+
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
 export default class App extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      accessToken: ''
+    }
+  }
+
+  async componentDidMount() {
+    const accessToken = await store.get('accessToken')
+    console.log(accessToken)
+    this.setState({accessToken})
     Linking.getInitialURL().then((url) => {
-      if (url) {
+      if (!accessToken && url) {
         console.log('Initial url is: ' + url);
         this.handleOpenURL(url)
       }
@@ -65,24 +79,23 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-        <Button
-          title='Authorize'
-          onPress={this.authorize}
-        />
-      </View>
-    );
+    return this.state.accessToken ? <ListScreen/> : <View>
+      <Text>Open up App.js to start working on your app!</Text>
+      <Text>Changes you make will automatically reload.</Text>
+      <Text>Shake your phone to open the developer menu.</Text>
+      <Text>{this.state.accessToken}</Text>
+      <Button
+        title='Authorize'
+        onPress={this.authorize}
+      />
+    </View>
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

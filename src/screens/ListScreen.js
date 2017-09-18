@@ -6,6 +6,7 @@ import {
   ListView,
   Image,
   TouchableNativeFeedback,
+  TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
@@ -14,7 +15,7 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
 
-import Router from '../navigation/Router.js'
+// import Router from '../navigation/Router.js'
 import Config from '../../config.js'
 
 const api = new Frisbee({
@@ -74,8 +75,10 @@ export default class ListScreen extends Component {
   async componentDidMount() {
     const accessToken = await store.get('accessToken')
     const user = await store.get('user')
-    const screenName = user.screen_name
-    const tabId = this.props.route.params.tabId
+    // const screenName = user.screen_name
+    const screenName = 'mottox2'
+    // const tabId = this.props.route.params.tabId
+    const tabId = 'recent'
     this.query = queryMap(tabId, screenName)
     const teamName = await store.get('teamName')
     console.log(this.query)
@@ -94,7 +97,7 @@ export default class ListScreen extends Component {
 
   goToDetail(post) {
     this.props.navigation.performAction(({ tabs, stacks }) => {
-      stacks('root').push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}))
+      // stacks('root').push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}))
     });
     // this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
   }
@@ -111,7 +114,7 @@ export default class ListScreen extends Component {
             canLoadMore={this.state.canLoadMore}
             isLoadingMore={this.state.isLoading}
             onLoadMoreAsync={this._loadMoreContentAsync}
-            renderRow={(row) => <TouchableNativeFeedback onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
+            renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
                   source={{uri: row.created_by.icon}}
@@ -119,11 +122,11 @@ export default class ListScreen extends Component {
                 />
                 <View style={styles.content}>
                   <Text style={styles.category}>{row.category}</Text>
-                  <Text style={styles.title}>{row.name}</Text>
+                  <Text style={styles.title}>aaaaa{row.name}</Text>
                   <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
                 </View>
               </View>
-            </TouchableNativeFeedback>}
+            </TouchableHighlight>}
           />
         }
       </View>
@@ -134,6 +137,7 @@ export default class ListScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   indictorWrapper: {
     flex: 1,
@@ -141,6 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   row: {
+    flex: 1,
     paddingTop: 8,
     flexDirection: 'row',
     paddingLeft: 12,
