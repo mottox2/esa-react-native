@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Linking, Button } from 'react-native';
+import { StyleSheet, Text, View, Linking, Button, Image } from 'react-native';
 import store from 'react-native-simple-store';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
@@ -103,15 +103,22 @@ export default class App extends React.Component {
   }
 
   render() {
-    return this.state.accessToken ? <Navigator/> : <View>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Changes you make will automatically reload.</Text>
-      <Text>Shake your phone to open the developer menu.</Text>
-      <Text>{this.state.accessToken}</Text>
-      <Button
-        title='Authorize'
-        onPress={this.authorize}
-      />
+    return (this.state.accessToken && false) ? <Navigator/> : <View style={styles.container}>
+      <View style={{ flex: 2, backgroundColor: '#09807A', justifyContent: 'center', padding: 16, alignItems: 'center' }}>
+        <Image source={require('./assets/images/wing.png')} style={{ height: 90, resizeMode: 'contain' }} />
+        <Text style={{fontSize: 16, color: 'white', lineHeight: 26, marginTop: 12, textAlign: 'center' }}>WINGはドキュメント共有サービスesa.ioの{"\n"}非公式クライアントアプリです。</Text>
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
+        <Text style={{ opacity: 0.6 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
+        <Button
+          title='esa.ioと連携する'
+          onPress={this.authorize}
+        />
+        <Button
+          title='アカウントをお持ちでない方はこちら'
+          onPress={this.authorize}
+        />
+      </View>
     </View>
   }
 }
@@ -120,7 +127,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });
