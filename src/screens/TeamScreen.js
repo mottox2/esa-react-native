@@ -23,10 +23,9 @@ const api = new Frisbee({
 })
 
 export default class TeamScreen extends Component {
-  static route = {
-    navigationBar: {
-      title: 'Wing'
-    },
+  static navigationOptions = {
+    tabBarLabel: 'Teams',
+    title: 'Switch Team',
   }
 
   constructor(props) {
@@ -35,6 +34,7 @@ export default class TeamScreen extends Component {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
       dataSource: ds,
+      isLoading: true,
     }
   }
 
@@ -55,6 +55,7 @@ export default class TeamScreen extends Component {
     const teams = user.teams
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(teams),
+      isLoading: false,
     })
   }
 
