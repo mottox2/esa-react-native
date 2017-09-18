@@ -60,29 +60,25 @@ export default class TeamScreen extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        { this.state.isLoading ?
-          <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={(row) => <TouchableHighlight onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
-              <View style={styles.row}>
-                <Image
-                  source={{uri: row.icon}}
-                  style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
-                />
-                <View style={styles.content}>
-                  <Text style={styles.category}>{row.name}</Text>
-                  <Text style={styles.title}>{row.name}</Text>
-                  <Text style={styles.createdBy}>Created by {row.name}</Text>
-                </View>
-              </View>
-            </TouchableHighlight>}
-          />
-        }
-      </View>
-    )
+    return ( this.state.isLoading ?
+      <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
+      <ListView
+        dataSource={this.state.dataSource}
+        removeClippedSubviews={false}
+        renderRow={(row) => <TouchableHighlight onPress={this.switchTeam.bind(this, row)} underlayColor='#eeeeee'>
+          <View style={styles.row}>
+            <Image
+              source={{uri: row.icon}}
+              style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
+            />
+            <View style={styles.content}>
+              <Text style={styles.category}>{row.name}</Text>
+              <Text style={styles.title}>{row.name}</Text>
+              <Text style={styles.createdBy}>Created by {row.name}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>}
+      />)
   }
 }
 

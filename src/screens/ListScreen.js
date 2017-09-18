@@ -98,6 +98,7 @@ export default class ListScreen extends Component {
             canLoadMore={this.state.canLoadMore}
             isLoadingMore={this.state.isLoading}
             onLoadMoreAsync={this._loadMoreContentAsync}
+            removeClippedSubviews={false}
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
