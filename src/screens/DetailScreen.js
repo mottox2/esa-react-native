@@ -57,18 +57,8 @@ h2 .fa, h3 .fa, h4 .fa {
 `
 
 export default class DetailScreen extends Component {
-  static route = {
-    navigationBar: {
-      title(params) {
-        return params.name
-      },
-      backgroundColor: '#2DA8A3',
-      tintColor: '#FFF',
-    },
-  }
-
   componentDidMount() {
-    console.log(this.props.route.params)
+    console.log(this.props.navigation.state.params)
   }
 
   constructor(props) {
@@ -82,7 +72,7 @@ export default class DetailScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <WebView style={styles.webView} source={{ html: `${htmlStyles}<body>${this.props.route.params.body_html}</body>` }} />
+        <WebView style={styles.webView} source={{ html: `${htmlStyles}<body>${this.props.navigation.state.params.body_html}</body>` }} />
       </View>
     )
   }

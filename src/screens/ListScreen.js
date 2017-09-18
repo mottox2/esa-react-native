@@ -94,10 +94,9 @@ export default class ListScreen extends Component {
   }
 
   goToDetail(post) {
-    this.props.navigation.performAction(({ tabs, stacks }) => {
-      // stacks('root').push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}))
-    });
-    // this.props.navigator.push(Router.getRoute('detail', {name: post.name, number: post.number, body_html: post.body_html}));
+    this.props.navigation.navigate('Detail', {
+      name: post.name, number: post.number, body_html: post.body_html
+    })
   }
 
   render() {
