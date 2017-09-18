@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "20.0.0"
+    "sdkVersion": "20.0.0",
+    "privacy": "unlisted",
+    "icon": "./icon.png",
+    "primaryColor": "#09918A",
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#075B56"
+    },
+    "android": {
+      "package": "com.mottox2.wing"
+    }
   }
 }
