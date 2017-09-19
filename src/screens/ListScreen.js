@@ -8,6 +8,7 @@ import {
   TouchableNativeFeedback,
   TouchableHighlight,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -59,7 +60,8 @@ export default class ListScreen extends Component {
       dataSource: ds,
       isLoading: true,
       isLoadingMore: false,
-      canLoadMore: true
+      isRefreshing: false,
+      canLoadMore: true,
     }
     this.goToDetail = this.goToDetail.bind(this)
     this.posts = []
@@ -85,6 +87,13 @@ export default class ListScreen extends Component {
     })
   }
 
+  async onRefresh() {
+    this.setState({isRefreshing: true});
+    const query = Object.assign({}, this.query, { page: 1 })
+    await this.fetchPosts(query)
+    this.setState({isRefreshing: false});
+  }
+
   navigationParams() {
     return {}
   }
@@ -103,6 +112,12 @@ export default class ListScreen extends Component {
             onLoadMoreAsync={this._loadMoreContentAsync}
             removeClippedSubviews={false}
             enableEmptySections={true}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={this.onRefresh.bind(this)}
+              />
+            }
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
               <View style={styles.row}>
                 <Image
