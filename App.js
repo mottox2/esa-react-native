@@ -67,6 +67,10 @@ export default class App extends React.Component {
 
   }
 
+  openEsa() {
+    Linking.openURL('https://esa.io')
+  }
+
   async handleOpenURL(url) {
     const authorizationCode = url.match(/\?code=(.*)/)[1]
     const requestData = {
@@ -111,14 +115,15 @@ export default class App extends React.Component {
         </LinearGradient>
       </View>
       <View style={styles.onboardingFooter}>
-        <Text style={{ opacity: 0.6 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
+        <Text style={{ opacity: 0.6, marginBottom: 8 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
         <Button
           title='esa.ioと連携する'
           onPress={this.authorize}
         />
         <Button
           title='アカウントをお持ちでない方はこちら'
-          onPress={this.authorize}
+          onPress={this.openEsa}
+          style={{marginTop: 8 }}
         />
       </View>
     </View>
