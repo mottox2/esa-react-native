@@ -6,6 +6,7 @@ import {
   ListView,
   Image,
   WebView,
+  Linking,
 } from 'react-native';
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
@@ -79,8 +80,9 @@ blockquote {
 `
 
 export default class DetailScreen extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     console.log(this.props.navigation.state.params)
+    this.teamName = await store.get('teamName')
   }
 
   constructor(props) {
@@ -94,7 +96,24 @@ export default class DetailScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <WebView style={styles.webView} source={{ html: `${htmlStyles}<body>${this.props.navigation.state.params.body_html}</body>` }} />
+        <WebView
+          ref={(ref) => { this.webview = ref }}
+          style={styles.webView}
+          source={{ html: `${htmlStyles}<body>${this.props.navigation.state.params.body_html}</body>` }}
+          onNavigationStateChange={(event) => {
+            console.log(event)
+            const url = event.url
+            if (((typeof url) === 'string') && (url[0] === '/')) {
+              this.webview.stopLoading();
+              // 相対リンクを絶対リンクに直す
+              Linking.openURL(`https://${this.teamName}.esa.io${url}`);
+            } else if (url !== 'about:blank') {
+              this.webview.stopLoading();
+              Linking.openURL(url);
+
+            }
+          }}
+         />
       </View>
     )
   }
