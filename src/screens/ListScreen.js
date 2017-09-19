@@ -98,42 +98,48 @@ export default class ListScreen extends Component {
     return {}
   }
 
+  renderList() {
+    return (this.posts.length > 0 ?
+        <ListView
+          renderScrollComponent={props => <InfiniteScrollView {...props} />}
+          dataSource={this.state.dataSource}
+          distanceToLoadMore={10}
+          canLoadMore={this.state.canLoadMore}
+          isLoadingMore={this.state.isLoading}
+          onLoadMoreAsync={this._loadMoreContentAsync}
+          removeClippedSubviews={false}
+          enableEmptySections={true}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.onRefresh.bind(this)}
+              colors={['#09918A']}
+              tintColor='#09918A'
+            />
+          }
+          renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
+            <View style={styles.row}>
+              <Image
+                source={{uri: row.created_by.icon}}
+                style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
+              />
+              <View style={styles.content}>
+                <Text style={styles.category}>{row.category}</Text>
+                <Text style={styles.title}>{row.name}</Text>
+                <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
+              </View>
+            </View>
+          </TouchableHighlight>}
+        /> :
+        <Text style={styles.blankText}>該当する記事はありません</Text>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
         { this.state.isLoading ?
-          <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> :
-          <ListView
-            renderScrollComponent={props => <InfiniteScrollView {...props} />}
-            dataSource={this.state.dataSource}
-            distanceToLoadMore={10}
-            canLoadMore={this.state.canLoadMore}
-            isLoadingMore={this.state.isLoading}
-            onLoadMoreAsync={this._loadMoreContentAsync}
-            removeClippedSubviews={false}
-            enableEmptySections={true}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.isRefreshing}
-                onRefresh={this.onRefresh.bind(this)}
-                colors={['#09918A']}
-                tintColor='#09918A'
-              />
-            }
-            renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
-              <View style={styles.row}>
-                <Image
-                  source={{uri: row.created_by.icon}}
-                  style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
-                />
-                <View style={styles.content}>
-                  <Text style={styles.category}>{row.category}</Text>
-                  <Text style={styles.title}>{row.name}</Text>
-                  <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
-                </View>
-              </View>
-            </TouchableHighlight>}
-          />
+          <View style={styles.indictorWrapper}><ActivityIndicator size='large'/></View> : this.renderList()
         }
       </View>
     )
@@ -179,6 +185,12 @@ const styles = StyleSheet.create({
     color: '#9DA4AF',
     fontSize: 11,
     marginTop: 4,
+  },
+  blankText: {
+    color: '#747478',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 30,
   }
 });
 
