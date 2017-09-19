@@ -15,6 +15,9 @@ const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
 
+// ex. exp://exp.host/@community/with-webbrowser-redirect/+
+const redirectUri = Constants.linkingUri.replace('+', '')
+
 const MainScreenNavigator = TabNavigator({
   Recent: { screen: RecentListScreen },
   Starred: { screen: StarredListScreen },
@@ -35,7 +38,9 @@ export default class App extends React.Component {
     super(props)
 
     this.state = {
-      accessToken: ''
+      accessToken: '',
+      res: '',
+      req: '',
     }
   }
 
@@ -53,11 +58,6 @@ export default class App extends React.Component {
   }
 
   authorize() {
-    // ex. exp://exp.host/@community/with-webbrowser-redirect/+
-    let redirectUri = Constants.linkingUri
-    redirectUri = redirectUri.replace('+', 'authorize')
-    console.log(redirectUri)
-
     Linking.openURL([
       'https://api.esa.io/oauth/authorize',
       '?response_type=code',
@@ -72,14 +72,18 @@ export default class App extends React.Component {
   }
 
   async handleOpenURL(url) {
-    const authorizationCode = url.match(/\?code=(.*)/)[1]
+    const matches = url.match(/\?code=(.*)/)
+    if (!matches) return
+    const authorizationCode = matches[1]
     const requestData = {
       client_id: Config.CLIENT_ID,
       client_secret: Config.CLIENT_SECRET,
       grant_type: 'authorization_code',
-      redirect_uri: Config.REDIRECT_URI,
+      redirect_uri: redirectUri.replace(/\?code=(.*)/, ''),
       code: authorizationCode,
     }
+    this.setState({ req: JSON.stringify(requestData) })
+    console.log(requestData)
     let headers = new Headers();
     headers.append('Accept', 'application/json')
     headers.append('Content-Type', 'application/json')
@@ -90,6 +94,7 @@ export default class App extends React.Component {
       body: JSON.stringify(requestData),
     })
     const responseJson = await response.json()
+    this.setState({ res: JSON.stringify(responseJson) })
     console.log(responseJson)
     if (responseJson.error) {
       console.log(responseJson)
@@ -103,11 +108,12 @@ export default class App extends React.Component {
       console.log('閲覧出来る記事がありません。esa.ioへの登録が必要です。')
     } else {
       await store.save('teamName', user.body.teams[0].name)
+      this.setState({accessToken})
     }
   }
 
   render() {
-    return (this.state.accessToken && false) ? <Navigator/> : <View style={styles.container}>
+    return (this.state.accessToken) ? <Navigator/> : <View style={styles.container}>
       <View style={styles.onboardingHeader}>
         <LinearGradient colors={['#18CAC5', '#09807A']} style={styles.onboardingGradient}>
           <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
@@ -116,6 +122,8 @@ export default class App extends React.Component {
       </View>
       <View style={styles.onboardingFooter}>
         <Text style={{ opacity: 0.6, marginBottom: 8 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.req }</Text>
+        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.res }</Text> */}
         <Button
           title='esa.ioと連携する'
           onPress={this.authorize}
