@@ -116,6 +116,8 @@ export default class ListScreen extends Component {
               <RefreshControl
                 refreshing={this.state.isRefreshing}
                 onRefresh={this.onRefresh.bind(this)}
+                colors={['#09918A']}
+                tintColor='#09918A'
               />
             }
             renderRow={(row) => <TouchableHighlight onPress={this.goToDetail.bind(this, row)} underlayColor='#eeeeee'>
