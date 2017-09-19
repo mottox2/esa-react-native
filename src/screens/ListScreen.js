@@ -30,17 +30,12 @@ export default class ListScreen extends Component {
 
   _loadMoreContentAsync = async () => {
     if (this.state.isLoadingMore || !this.nextPage) return
-    console.log('More loading')
     this.setState({ isLoadingMore: true })
 
-    const accessToken = await store.get('accessToken')
     const query = Object.assign({}, this.query, { page: this.nextPage })
-    console.log('query:', this.query)
+    console.log('query[' + this.nextPage + ']:', this.query)
 
-    const posts = await this.fetchPosts(query)
-
-    this.setState({ isLoadingMore: false, dataSource: this.state.dataSource.cloneWithRows(this.posts)})
-    console.log('Done: More loading')
+    await this.fetchPosts(query)
   }
 
   async fetchPosts(query) {
@@ -48,6 +43,11 @@ export default class ListScreen extends Component {
     this.nextPage = posts.body.next_page
     if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(posts.body.posts)
+    this.setState({
+      isLoading: false,
+      isLoadingMore: false,
+      dataSource: this.state.dataSource.cloneWithRows(this.posts)
+    })
     return posts
   }
 
@@ -76,9 +76,7 @@ export default class ListScreen extends Component {
     this.query = this.navigationParams(screenName)
     console.log('query:', this.query)
 
-    const posts = await this.fetchPosts(this.query)
-
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(this.posts), isLoading: false })
+    await this.fetchPosts(this.query)
   }
 
   goToDetail(post) {
