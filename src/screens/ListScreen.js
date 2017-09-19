@@ -32,15 +32,23 @@ export default class ListScreen extends Component {
     if (this.state.isLoadingMore || !this.nextPage) return
     console.log('More loading')
     this.setState({ isLoadingMore: true })
+
     const accessToken = await store.get('accessToken')
     const query = Object.assign({}, this.query, { page: this.nextPage })
-    console.log(query)
-    const posts = await api.jwt(accessToken).get(this.requestPath, { body: query })
+    console.log('query:', this.query)
+
+    const posts = await this.fetchPosts(query)
+
+    this.setState({ isLoadingMore: false, dataSource: this.state.dataSource.cloneWithRows(this.posts)})
+    console.log('Done: More loading')
+  }
+
+  async fetchPosts(query) {
+    const posts = await api.jwt(this.accessToken).get(this.requestPath, { body: query })
     this.nextPage = posts.body.next_page
     if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(posts.body.posts)
-    this.setState({ isLoadingMore: false, dataSource: this.state.dataSource.cloneWithRows(this.posts)})
-    console.log('Done: More loading')
+    return posts
   }
 
   constructor(props) {
@@ -54,27 +62,23 @@ export default class ListScreen extends Component {
       canLoadMore: true
     }
     this.goToDetail = this.goToDetail.bind(this)
+    this.posts = []
   }
 
   async componentDidMount() {
-    const accessToken = await store.get('accessToken')
+    this.accessToken = await store.get('accessToken')
+    const teamName = await store.get('teamName')
+    this.requestPath = '/v1/teams/' + teamName + '/posts'
+
+    // Set query
     const user = await store.get('user')
     const screenName = user.screen_name
     this.query = this.navigationParams(screenName)
     console.log('query:', this.query)
-    const teamName = await store.get('teamName')
-    console.log(this.query)
 
-    this.requestPath = '/v1/teams/' + teamName + '/posts'
-    const posts = await api.jwt(accessToken).get(this.requestPath, { body: this.query })
-    this.nextPage = posts.body.next_page
-    if (!this.nextPage) this.setState({ canLoadMore: false })
-    this.posts = posts.body.posts
-    // let posts = {}
-    // posts.body = postsData;
+    const posts = await this.fetchPosts(this.query)
 
-    console.log(posts.body)
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(posts.body.posts), isLoading: false })
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(this.posts), isLoading: false })
   }
 
   goToDetail(post) {
