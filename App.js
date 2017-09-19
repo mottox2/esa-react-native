@@ -26,6 +26,13 @@ const MainScreenNavigator = TabNavigator({
 }, {
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
+  tabBarOptions: {
+    activeTintColor: '#09918A',
+    inactiveTintColor: '#aaa',
+    labelStyle: {
+      top: -2,
+    },
+  },
 });
 
 const Navigator = StackNavigator({
