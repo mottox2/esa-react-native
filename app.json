@@ -15,6 +15,9 @@
     "android": {
       "package": "com.mottox2.wing",
       "versionCode": 1
+    },
+    "loading": {
+      "icon": "./icon.png"
     }
   }
 }
