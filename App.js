@@ -5,6 +5,8 @@ import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
 import Config from './config.js'
 import { Constants, LinearGradient } from 'expo'
+import { NavigationComponent } from 'react-native-material-bottom-navigation'
+
 
 // import PostListView from './src/components/PostListView.js'
 import ListScreen, { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen.js'
@@ -24,13 +26,20 @@ const MainScreenNavigator = TabNavigator({
   Watched: { screen: WatchedListScreen },
   Team: { screen: TeamScreen },
 }, {
-  tabBarComponent: TabBarBottom,
+  tabBarComponent: NavigationComponent, //TabBarBottom,
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: '#09918A',
     inactiveTintColor: '#aaa',
-    labelStyle: {
-      top: -2,
+    bottomNavigationOptions: {
+      rippleColor: '#09918A',
+      shifting: false,
+      innerStyle: {
+      }
+    },
+    style: {
+      borderTopWidth: 1,
+      borderTopColor: '#eee',
     },
   },
 });

@@ -25,7 +25,8 @@
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.0",
     "react-native-infinite-scroll-view": "^0.4.3",
+    "react-native-material-bottom-navigation": "mottox2/react-native-material-bottom-navigation",
     "react-native-simple-store": "^1.3.0",
-    "react-navigation": "^1.0.0-beta.11"
+    "react-navigation": "1.0.0-beta.9"
   }
 }

@@ -200,7 +200,7 @@ export class RecentListScreen  extends ListScreen {
     tabBarIcon: ({ tintColor }) => (
       <MaterialIcons
         name='home'
-        size={30}
+        size={29}
         color={tintColor}
       />
     )
