@@ -82,9 +82,9 @@ export default class TeamScreen extends Component {
                   style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
                 />
                 <View style={styles.content}>
-                  <Text style={styles.category}>{row.url}</Text>
+                  <Text style={styles.category}></Text>
                   <Text style={styles.title}>{row.name}</Text>
-                  <Text style={styles.createdBy}>Created by {row.name}</Text>
+                  <Text style={styles.createdBy}>{row.url}</Text>
                 </View>
               </View>
             </TouchableHighlight>}
