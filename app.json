@@ -5,7 +5,7 @@
     "icon": "./icon.png",
     "primaryColor": "#09918A",
     "androidStatusBar": {
-      "barStyle": "dark-content",
+      "barStyle": "light-content",
       "backgroundColor": "#075B56"
     },
     "android": {

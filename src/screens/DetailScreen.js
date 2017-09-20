@@ -80,6 +80,10 @@ blockquote {
 `
 
 export default class DetailScreen extends Component {
+  static navigationOptions = ({navigation}) => ({
+    title: navigation.state.params.name,
+  })
+
   async componentDidMount() {
     console.log(this.props.navigation.state.params)
     this.teamName = await store.get('teamName')

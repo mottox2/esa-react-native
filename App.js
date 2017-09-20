@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Linking, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Linking, Button, Image, Platform } from 'react-native';
 import store from 'react-native-simple-store';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
@@ -47,6 +47,15 @@ const MainScreenNavigator = TabNavigator({
 const Navigator = StackNavigator({
   Main: { screen: MainScreenNavigator },
   Detail: { screen: DetailScreen },
+}, {
+  navigationOptions: ({navigation}) => ({
+    headerStyle: (Platform.OS === 'android' ? {
+      backgroundColor: '#09918A',
+    } : {}),
+    headerTitleStyle: (Platform.OS === 'android' ? {
+      color: 'white',
+    } : {}),
+  }),
 });
 
 export default class App extends React.Component {
