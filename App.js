@@ -49,6 +49,7 @@ const Navigator = StackNavigator({
   Detail: { screen: DetailScreen },
 }, {
   navigationOptions: ({navigation}) => ({
+    headerTintColor: (Platform.OS === 'android' ? 'white' : null),
     headerStyle: (Platform.OS === 'android' ? {
       backgroundColor: '#09918A',
     } : {}),
