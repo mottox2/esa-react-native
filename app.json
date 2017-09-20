@@ -3,13 +3,18 @@
     "sdkVersion": "20.0.0",
     "privacy": "unlisted",
     "icon": "./icon.png",
+    "name": "Wing",
+    "slug": "wing",
+    "version": "0.1.0",
+    "scheme": "wing",
     "primaryColor": "#09918A",
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#075B56"
     },
     "android": {
-      "package": "com.mottox2.wing"
+      "package": "com.mottox2.wing",
+      "versionCode": 1
     }
   }
 }
