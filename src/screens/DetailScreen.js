@@ -107,14 +107,14 @@ export default class DetailScreen extends Component {
           onNavigationStateChange={(event) => {
             console.log(event)
             const url = event.url
+            console.log( url.match(/data:text/) )
             if (((typeof url) === 'string') && (url[0] === '/')) {
               this.webview.stopLoading();
               // 相対リンクを絶対リンクに直す
               Linking.openURL(`https://${this.teamName}.esa.io${url}`);
-            } else if (url !== 'about:blank') {
+            } else if (url !== 'about:blank' && !url.match(/data:text/)) {
               this.webview.stopLoading();
               Linking.openURL(url);
-
             }
           }}
          />
