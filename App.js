@@ -18,7 +18,8 @@ const api = new Frisbee({
 })
 
 // ex. exp://exp.host/@community/with-webbrowser-redirect/+
-const redirectUri = Constants.linkingUri.replace('+', '')
+const linkingUri = Constants.linkingUri
+const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'authorize' : linkingUri.replace('+', '')
 
 const MainScreenNavigator = TabNavigator({
   Recent: { screen: RecentListScreen },
@@ -67,6 +68,7 @@ export default class App extends React.Component {
       accessToken: '',
       res: '',
       req: '',
+      url: '',
     }
   }
 
@@ -76,6 +78,7 @@ export default class App extends React.Component {
     this.setState({accessToken})
     Linking.getInitialURL().then((url) => {
       if (!accessToken && url) {
+        this.setState({ url })
         console.log('Initial url is: ' + url);
         this.handleOpenURL(url)
       }
@@ -148,7 +151,9 @@ export default class App extends React.Component {
       </View>
       <View style={styles.onboardingFooter}>
         <Text style={{ opacity: 0.6, marginBottom: 8 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
-        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.req }</Text>
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ redirectUri }</Text>
+        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.url }</Text>
+        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.req }</Text>
         <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.res }</Text> */}
         <Button
           title='esa.ioと連携する'
