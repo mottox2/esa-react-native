@@ -16,6 +16,9 @@
       "package": "com.mottox2.wing",
       "versionCode": 3
     },
+    "ios": {
+      "bundleIdentifier": "com.mottox2.wing"
+    },
     "loading": {
       "icon": "./icon.png"
     }
