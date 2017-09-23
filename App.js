@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Linking, Button, Image, Platform } from 'react-native';
+import { StyleSheet, Text, View, Linking, Button, Image, Platform, StatusBar } from 'react-native';
 import store from 'react-native-simple-store';
 import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
 import Frisbee from 'frisbee';
 import Config from './config.js'
-import { Constants, LinearGradient } from 'expo'
+import { Constants, LinearGradient, AuthSession } from 'expo'
 import { NavigationComponent } from 'react-native-material-bottom-navigation'
 
 
@@ -76,40 +76,44 @@ export default class App extends React.Component {
     const accessToken = await store.get('accessToken')
     console.log(accessToken)
     this.setState({accessToken})
-    Linking.getInitialURL().then((url) => {
-      if (!accessToken && url) {
-        this.setState({ url })
-        console.log('Initial url is: ' + url);
-        this.handleOpenURL(url)
-      }
-    })
-    Linking.addEventListener('url', this.handleOpenURL)
+    // Linking.getInitialURL().then((url) => {
+    //   if (!accessToken && url) {
+    //     this.setState({ url })
+    //     console.log('Initial url is: ' + url);
+    //     this.handleOpenURL(url)
+    //   }
+    // })
+    // Linking.addEventListener('url', this.handleOpenURL)
   }
 
-  authorize() {
-    Linking.openURL([
-      'https://api.esa.io/oauth/authorize',
-      '?response_type=code',
-      '&client_id=' + Config.CLIENT_ID,
-      '&redirect_uri=' + redirectUri,
-    ].join(''))
-
+  async authorize() {
+    let redirectUrl = AuthSession.getRedirectUrl()
+    // this.setState({ url: redirectUrl })
+    let result = await AuthSession.startAsync({
+      authUrl: [
+        'https://api.esa.io/oauth/authorize',
+        '?response_type=code',
+        '&client_id=' + Config.CLIENT_ID,
+        '&redirect_uri=' + redirectUrl,
+      ].join('')
+    })
+    // this.setState({ res: JSON.stringify(result) })
+    const code = result.params.code
+    this.getAccessToken(code, redirectUrl)
   }
 
   openEsa() {
     Linking.openURL('https://esa.io')
   }
 
-  async handleOpenURL(url) {
-    const matches = url.match(/\?code=(.*)/)
-    if (!matches) return
-    const authorizationCode = matches[1]
+  async getAccessToken(code, redirectUrl) {
+    if (!code) return
     const requestData = {
       client_id: Config.CLIENT_ID,
       client_secret: Config.CLIENT_SECRET,
       grant_type: 'authorization_code',
-      redirect_uri: redirectUri.replace(/\?code=(.*)/, ''),
-      code: authorizationCode,
+      redirect_uri: redirectUrl,
+      code: code,
     }
     this.setState({ req: JSON.stringify(requestData) })
     console.log(requestData)
@@ -151,13 +155,13 @@ export default class App extends React.Component {
       </View>
       <View style={styles.onboardingFooter}>
         <Text style={{ opacity: 0.6, marginBottom: 8 }}>ご利用にはesa.ioのアカウントの認証が必要です</Text>
-        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ redirectUri }</Text>
-        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.url }</Text>
-        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.req }</Text>
-        <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.res }</Text> */}
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ redirectUri }</Text> */}
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.url }</Text> */}
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.req }</Text> */}
+        {/* <Text style={{ opacity: 0.6, marginBottom: 8 }}>{ this.state.res }</Text> */}
         <Button
           title='esa.ioと連携する'
-          onPress={this.authorize}
+          onPress={this.authorize.bind(this)}
         />
         <Button
           title='アカウントをお持ちでない方はこちら'
