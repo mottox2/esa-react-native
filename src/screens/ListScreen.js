@@ -42,6 +42,7 @@ export default class ListScreen extends Component {
   async fetchPosts(query) {
     const res = await api.jwt(this.accessToken).get(this.requestPath, { body: query })
     this.nextPage = res.body.next_page
+    console.log(res.body)
     if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(res.body.posts)
     this.setState({
@@ -124,7 +125,15 @@ export default class ListScreen extends Component {
               />
               <View style={styles.content}>
                 <Text style={styles.category}>{row.category}</Text>
-                <Text style={styles.title}>{row.name}</Text>
+                <Text style={row.wip ? styles.wipTitle : styles.title}>
+                  { row.wip ?
+                    <Text style={styles.wipLabel}> WIP </Text> : false
+                  }
+                  { row.wip ?
+                    ' ' : false
+                  }
+                  {row.name}
+                </Text>
                 <Text style={styles.createdBy}>Created by {row.created_by.name}</Text>
               </View>
             </View>
@@ -179,6 +188,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "500",
     lineHeight: 21,
+  },
+  wipTitle: {
+    color: '#9fa6b1',
+    fontSize: 15,
+    fontWeight: "500",
+    lineHeight: 21,
+  },
+  wipLabel: {
+    backgroundColor: '#eee',
+    fontSize: 12,
+    paddingTop: 1,
+    paddingBottom: 3,
+    textAlign: 'center',
   },
   createdBy: {
     color: '#9DA4AF',
