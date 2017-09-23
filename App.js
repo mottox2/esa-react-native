@@ -19,7 +19,8 @@ const api = new Frisbee({
 
 // ex. exp://exp.host/@community/with-webbrowser-redirect/+
 const linkingUri = Constants.linkingUri
-const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'authorize' : linkingUri.replace('+', '')
+// const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'esa.io/authorize' : linkingUri.replace('+', '')
+const redirectUri = linkingUri.replace('+', 'esa.io/authorize')
 
 const MainScreenNavigator = TabNavigator({
   Recent: { screen: RecentListScreen },
@@ -49,15 +50,17 @@ const Navigator = StackNavigator({
   Main: { screen: MainScreenNavigator },
   Detail: { screen: DetailScreen },
 }, {
-  navigationOptions: ({navigation}) => ({
-    headerTintColor: (Platform.OS === 'android' ? 'white' : null),
-    headerStyle: (Platform.OS === 'android' ? {
-      backgroundColor: '#09918A',
-    } : {}),
-    headerTitleStyle: (Platform.OS === 'android' ? {
-      color: 'white',
-    } : {}),
-  }),
+  navigationOptions: ({navigation}) => {
+    Platform.OS == 'android' ? {
+      headerTintColor: 'white',
+      headerStyle: {
+        backgroundColor: '#09918A',
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    } : {}
+  }
 });
 
 export default class App extends React.Component {
@@ -146,7 +149,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (this.state.accessToken) ? <Navigator/> : <View style={styles.container}>
+    return (this.state.accessToken) ? <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <Navigator/>
+    </View> : <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <View style={styles.onboardingHeader}>
         <LinearGradient colors={['#18CAC5', '#09807A']} style={styles.onboardingGradient}>
           <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
