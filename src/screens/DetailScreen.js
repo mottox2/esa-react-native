@@ -8,12 +8,7 @@ import {
   WebView,
   Linking,
 } from 'react-native';
-import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
-
-const api = new Frisbee({
-  baseURI: 'https://api.esa.io'
-})
 
 let htmlStyles = `
 <style>
@@ -82,19 +77,13 @@ blockquote {
 export default class DetailScreen extends Component {
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.name,
+    headerBackTitle: '戻る',
+    headerTruncatedBackTitle: '戻る',
   })
 
   async componentDidMount() {
     console.log(this.props.navigation.state.params)
     this.teamName = await store.get('teamName')
-  }
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      post: null
-    }
   }
 
   render() {
