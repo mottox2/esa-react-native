@@ -51,7 +51,7 @@ const Navigator = StackNavigator({
   Detail: { screen: DetailScreen },
 }, {
   navigationOptions: ({navigation}) => {
-    Platform.OS == 'android' ? {
+    return Platform.OS == 'android' ? {
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#09918A',
@@ -150,10 +150,15 @@ export default class App extends React.Component {
 
   render() {
     return (this.state.accessToken) ? <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      { Platform.OS === 'android' ?
+        <StatusBar barStyle="light-content" backgroundColor='#075B56' /> :
+        <StatusBar barStyle="dark-content" />
+      }
       <Navigator/>
     </View> : <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      { Platform.OS === 'android' ? null :
+        <StatusBar barStyle="light-content" />
+      }
       <View style={styles.onboardingHeader}>
         <LinearGradient colors={['#18CAC5', '#09807A']} style={styles.onboardingGradient}>
           <Image source={require('./assets/images/wing.png')} style={styles.onboardingLogo} />
