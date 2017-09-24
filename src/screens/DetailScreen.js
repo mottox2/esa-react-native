@@ -11,6 +11,7 @@ import {
 import store from 'react-native-simple-store';
 
 let htmlStyles = `
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 a.anchor {
   display: none
@@ -27,6 +28,7 @@ body {
   margin: 0;
   font-size: 14px;
   word-wrap: break-word;
+  font-family: -apple-system-body, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans Japanese", "游ゴシック  Medium", "Yu Gothic Medium", "メイリオ", meiryo, sans-serif;
 }
 pre {
   overflow: auto;
