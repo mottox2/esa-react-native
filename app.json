@@ -20,7 +20,7 @@
       "bundleIdentifier": "com.mottox2.wing"
     },
     "loading": {
-      "icon": "./icon.png"
+      "icon": "./assets/images/loading.png"
     }
   }
 }
