@@ -88,7 +88,8 @@ export default class ListScreen extends Component {
   }
 
   async onRefresh() {
-    this.setState({isRefreshing: true});
+    this.setState({isRefreshing: true, isLoading: true});
+    this.posts = []
     const query = Object.assign({}, this.query, { page: 1 })
     await this.fetchPosts(query)
     this.setState({isRefreshing: false});
