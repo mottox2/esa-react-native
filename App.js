@@ -175,11 +175,13 @@ export default class App extends React.Component {
           title='esa.ioと連携する'
           onPress={this.authorize.bind(this)}
         />
-        <Button
-          title='アカウントをお持ちでない方はこちら'
-          onPress={this.openEsa}
-          style={{marginTop: 8 }}
-        />
+        { Platform.OS === 'android' &&
+          <Button
+            title='アカウントをお持ちでない方はこちら'
+            onPress={this.openEsa}
+            style={{marginTop: 8 }}
+          />
+        }
       </View>
     </View>
   }
