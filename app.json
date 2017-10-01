@@ -5,7 +5,7 @@
     "icon": "./icon.png",
     "name": "Wing",
     "slug": "wing",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "scheme": "wing",
     "primaryColor": "#09918A",
     "androidStatusBar": {
@@ -14,7 +14,7 @@
     },
     "android": {
       "package": "com.mottox2.wing",
-      "versionCode": 3
+      "versionCode": 4
     },
     "ios": {
       "bundleIdentifier": "com.mottox2.wing"
