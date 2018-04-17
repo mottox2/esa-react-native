@@ -22,5 +22,9 @@
     "loading": {
       "icon": "./assets/images/loading.png"
     }
+  },
+  "packageOpts": {
+    "sourceExts": ["ts", "tsx"],
+    "transformer": "node_modules/react-native-typescript-transformer/index.js"
   }
 }
