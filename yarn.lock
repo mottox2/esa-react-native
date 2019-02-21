@@ -680,9 +680,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-navigation@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.5.5.tgz#ce6034cf4e285a4702dcc656033ec44a850b64a8"
+"@types/react-navigation@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-3.0.3.tgz#6b38741df130e992c91466c123540e53f189eaad"
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"

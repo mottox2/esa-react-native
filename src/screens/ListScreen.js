@@ -42,7 +42,7 @@ export default class ListScreen extends Component {
   async fetchPosts(query) {
     const res = await api.jwt(this.accessToken).get(this.requestPath, { body: query })
     this.nextPage = res.body.next_page
-    console.log(res.body)
+    // console.log(res.body)
     if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(res.body.posts)
     this.setState({

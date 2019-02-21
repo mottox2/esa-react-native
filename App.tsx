@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Linking, Button, Image, Platform, StatusBar } from 'react-native'
 import store from 'react-native-simple-store'
-import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import Frisbee from 'frisbee'
 import Config from './config.js'
 import { Constants, LinearGradient, AuthSession } from 'expo'
-import BottomNavigation from 'react-native-material-bottom-navigation'
 
 // import PostListView from './src/components/PostListView.js'
 import ListScreen, {
@@ -25,35 +24,34 @@ const linkingUri = Constants.linkingUri
 // const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'esa.io/authorize' : linkingUri.replace('+', '')
 const redirectUri = linkingUri.replace('+', 'esa.io/authorize')
 
-const MainScreenNavigator = TabNavigator(
-  {
-    Recent: { screen: RecentListScreen },
-    Starred: { screen: StarredListScreen },
-    Watched: { screen: WatchedListScreen },
-    Team: { screen: TeamScreen }
-  },
-  {
-    // tabBarComponent: BottomNavigation, //TabBarBottom,
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-      activeTintColor: '#09918A',
-      inactiveTintColor: '#aaa',
-      style: {
-        borderTopWidth: 1,
-        borderTopColor: '#eee'
-      }
+const MainScreenNavigator = createBottomTabNavigator({
+  Recent: RecentListScreen,
+  Starred: StarredListScreen,
+  Watched: WatchedListScreen,
+  Team: TeamScreen
+},
+{
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    activeTintColor: '#09918A',
+    inactiveTintColor: '#aaa',
+    style: {
+      borderTopWidth: 1,
+      borderTopColor: '#eee'
     }
   }
-)
+})
 
-const Navigator = StackNavigator(
+const Navigator = createStackNavigator(
   {
-    Main: { screen: MainScreenNavigator },
-    Detail: { screen: DetailScreen }
+    Main: MainScreenNavigator,
+    Detail: DetailScreen
   },
   {
     navigationOptions: ({ navigation }) => {
-      return Platform.OS == 'android'
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      const headerTitle = routeName
+      return {...(Platform.OS == 'android'
         ? {
             headerTintColor: 'white',
             headerStyle: {
@@ -63,7 +61,7 @@ const Navigator = StackNavigator(
               color: 'white'
             }
           }
-        : {}
+        : {}), headerTitle}
     }
   }
 )
