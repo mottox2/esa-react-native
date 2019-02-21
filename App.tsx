@@ -33,7 +33,7 @@ const MainScreenNavigator = TabNavigator(
     Team: { screen: TeamScreen }
   },
   {
-    tabBarComponent: BottomNavigation, //TabBarBottom,
+    // tabBarComponent: BottomNavigation, //TabBarBottom,
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: '#09918A',
