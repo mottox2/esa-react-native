@@ -4,6 +4,8 @@ import { createBottomTabNavigator, createStackNavigator, createAppContainer } fr
 import { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen'
 import DetailScreen from './src/screens/DetailScreen'
 import TeamScreen from './src/screens/TeamScreen'
+import { TabScene } from 'react-navigation'
+// import { Platform } from 'expo'
 
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -14,7 +16,7 @@ const RecentStack = createStackNavigator({
 
 RecentStack.navigationOptions = () => ({
   tabBarLabel: 'Home',
-  tabBarIcon: ({ tintColor }) => (
+  tabBarIcon: ({ tintColor }: TabScene) => (
     <MaterialIcons
       name='home'
       size={29}
@@ -30,7 +32,7 @@ const StarredStack = createStackNavigator({
 
 StarredStack.navigationOptions = () => ({
   tabBarLabel: 'Starred',
-  tabBarIcon: ({ tintColor }) => (
+  tabBarIcon: ({ tintColor }: TabScene) => (
     <MaterialIcons
       name='star'
       size={28}
@@ -46,7 +48,7 @@ const WatchedStack = createStackNavigator({
 
 WatchedStack.navigationOptions = () => ({
   tabBarLabel: 'Watching',
-  tabBarIcon: ({ tintColor }) => (
+  tabBarIcon: ({ tintColor }: TabScene) => (
     <MaterialIcons
       name='visibility'
       size={28}
@@ -88,27 +90,27 @@ const TabNavigator = createBottomTabNavigator({
   }
 })
 
-const Navigator = createStackNavigator(
-  {
-    Main: TabNavigator,
-    DetailScreen
-  },
-  {
-    // FIXME: どっかに移動
-    navigationOptions: ({ navigation }) => {
-      return {...(Platform.OS == 'android'
-        ? {
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: '#09918A'
-            },
-            headerTitleStyle: {
-              color: 'white'
-            }
-          }
-        : {})}
-    }
-  }
-)
+// const Navigator = createStackNavigator(
+//   {
+//     Main: TabNavigator,
+//     DetailScreen
+//   },
+//   {
+//     // FIXME: どっかに移動
+//     navigationOptions: ({ navigation }) => {
+//       return Platform.OS == 'android'
+//         ? {
+//             headerTintColor: 'white',
+//             headerStyle: {
+//               backgroundColor: '#09918A'
+//             },
+//             headerTitleStyle: {
+//               color: 'white'
+//             }
+//           }
+//         : {}
+//     }
+//   }
+// )
 
 export default createAppContainer(TabNavigator)

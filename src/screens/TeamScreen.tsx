@@ -8,15 +8,24 @@ import {
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions, StackActions, TabScene } from 'react-navigation'
 import { MaterialIcons } from '@expo/vector-icons';
 import store from 'react-native-simple-store';
 
-export default class TeamScreen extends Component {
+interface State {
+  dataSource: any
+  isLoading: boolean
+}
+
+interface Props {
+  navigation: any
+}
+
+export default class TeamScreen extends Component<Props, State> {
   static navigationOptions = {
     tabBarLabel: 'Teams',
     title: 'Switch Team',
-    tabBarIcon: ({ tintColor }) => (
+    tabBarIcon: ({ tintColor } : TabScene) => (
       <MaterialIcons
         name='group'
         size={28}
@@ -25,7 +34,7 @@ export default class TeamScreen extends Component {
     )
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -35,14 +44,13 @@ export default class TeamScreen extends Component {
     }
   }
 
-  async switchTeam(row) {
+  // FIXME: 壊れてる
+  async switchTeam(row: any) {
     console.log(row)
     await store.save('teamName', row.name)
-    const resetAction = NavigationActions.reset({
+    const resetAction = StackActions.reset({
       index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Main'})
-      ]
+      actions: [NavigationActions.navigate({ routeName: 'TeamScreen'})]
     })
     this.props.navigation.dispatch(resetAction)
   }

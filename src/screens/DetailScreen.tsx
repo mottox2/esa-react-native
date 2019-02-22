@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import store from 'react-native-simple-store';
+import { NavigationProp, NavigationScreenProps } from 'react-navigation'
 
 let htmlStyles = `
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -73,8 +74,15 @@ blockquote {
 <script src="https://use.fontawesome.com/ffb71e0a08.js"></script>
 `
 
-export default class DetailScreen extends Component {
-  static navigationOptions = ({navigation}) => ({
+interface Props {
+  navigation: NavigationProp<any>
+}
+
+export default class DetailScreen extends Component<Props> {
+  webview: any
+  teamName?: string
+
+  static navigationOptions = ({navigation}: NavigationScreenProps<any>) => ({
     title: navigation.state.params.name,
     headerBackTitle: '戻る',
     headerTruncatedBackTitle: '戻る',
@@ -95,6 +103,7 @@ export default class DetailScreen extends Component {
           onNavigationStateChange={(event) => {
             console.log(event)
             const url = event.url
+            if (!url) { return }
             console.log( url.match(/data:text/) )
             if (((typeof url) === 'string') && (url[0] === '/')) {
               this.webview.stopLoading();

@@ -10,41 +10,32 @@ import {
   RefreshControl,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
+import { NavigationScreenOptions } from 'react-navigation'
 import store from 'react-native-simple-store';
 import Esa from 'esa-node'
 
-export default class ListScreen extends Component {
-  static navigationOptions = {
-    title: 'Wing'
+interface Props {
+  navigation: any
+}
+
+interface State {
+  isLoadingMore: boolean
+  isLoading: boolean
+  isRefreshing: boolean
+  canLoadMore: boolean
+  dataSource: any
+}
+
+export default abstract class ListScreen extends Component<Props, State> {
+  posts: Array<any>
+  nextPage?: number | null
+  accessToken?: string
+  teamName?: string
+  query?: {
+    q?: string
   }
 
-  _loadMoreContentAsync = async () => {
-    if (this.state.isLoadingMore || !this.nextPage) return
-    this.setState({ isLoadingMore: true })
-
-    const query = Object.assign({}, this.query, { page: this.nextPage })
-    console.log('query[' + this.nextPage + ']:', this.query)
-
-    await this.fetchPosts(query)
-  }
-
-  async fetchPosts(query) {
-    const api = new Esa(this.accessToken, this.teamName)
-    const res = await api.posts(this.query)
-    // requestPath
-
-    this.nextPage = res.next_page
-    // console.log(res.body)
-    if (!this.nextPage) this.setState({ canLoadMore: false })
-    this.posts = this.posts.concat(res.posts)
-    this.setState({
-      isLoading: false,
-      isLoadingMore: false,
-      dataSource: this.state.dataSource.cloneWithRows(this.posts)
-    })
-  }
-
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -61,19 +52,39 @@ export default class ListScreen extends Component {
 
   async componentDidMount() {
     this.accessToken = await store.get('accessToken')
-    const teamName = await store.get('teamName')
-    this.teamName = teamName
-    this.requestPath = '/v1/teams/' + teamName + '/posts'
-
-    const user = await store.get('user')
-    const screenName = user.screen_name
-    this.query = this.navigationParams(screenName)
-    console.log('query:', this.query)
-
+    this.teamName = await store.get('teamName')
+    this.query = this.navigationParams()
     await this.fetchPosts(this.query)
   }
 
-  goToDetail(post) {
+  _loadMoreContentAsync = async () => {
+    if (this.state.isLoadingMore || !this.nextPage) return
+    this.setState({ isLoadingMore: true })
+
+    const query = {
+      ...this.query,
+      page: this.nextPage
+    }
+
+    await this.fetchPosts(query)
+  }
+
+  async fetchPosts(query: any) {
+    if (!this.accessToken)  { return }
+    const api = new Esa(this.accessToken, this.teamName)
+    const res = await api.posts(query)
+
+    this.nextPage = res.next_page
+    if (!this.nextPage) this.setState({ canLoadMore: false })
+    this.posts = this.posts.concat(res.posts)
+    this.setState({
+      isLoading: false,
+      isLoadingMore: false,
+      dataSource: this.state.dataSource.cloneWithRows(this.posts)
+    })
+  }
+
+  goToDetail(post: any) {
     this.props.navigation.navigate('DetailScreen', {
       name: post.name, number: post.number, body_html: post.body_html
     })
@@ -82,7 +93,7 @@ export default class ListScreen extends Component {
   async onRefresh() {
     this.setState({isRefreshing: true, isLoading: true});
     this.posts = []
-    const query = Object.assign({}, this.query, { page: 1 })
+    const query = {...this.query, page: 1 }
     await this.fetchPosts(query)
     this.setState({isRefreshing: false});
   }
@@ -209,7 +220,7 @@ const styles = StyleSheet.create({
 });
 
 export class RecentListScreen  extends ListScreen {
-  static navigationOptions = {
+  static navigationOptions : NavigationScreenOptions = {
     title: 'Recent Posts',
   }
 
@@ -219,7 +230,7 @@ export class RecentListScreen  extends ListScreen {
 }
 
 export class StarredListScreen  extends ListScreen {
-  static navigationOptions = {
+  static navigationOptions : NavigationScreenOptions = {
     title: 'Starred Posts',
   }
 
@@ -229,26 +240,11 @@ export class StarredListScreen  extends ListScreen {
 }
 
 export class WatchedListScreen  extends ListScreen {
-  static navigationOptions = {
+  static navigationOptions : NavigationScreenOptions = {
     title: 'Watched Posts',
   }
 
   navigationParams() {
     return { q: 'watched:true' }
-  }
-}
-
-export class ProfileListScreen  extends ListScreen {
-  static navigationOptions = {
-    tabBarLabel: 'Mine',
-    title: 'My Posts',
-  }
-
-  constructor(props) {
-    super(props)
-  }
-
-  navigationParams(screenName) {
-    return { q: `user:${screenName}` }
   }
 }
