@@ -42,7 +42,7 @@ export default class ListScreen extends Component {
   async fetchPosts(query) {
     const res = await api.jwt(this.accessToken).get(this.requestPath, { body: query })
     this.nextPage = res.body.next_page
-    console.log(res.body)
+    // console.log(res.body)
     if (!this.nextPage) this.setState({ canLoadMore: false })
     this.posts = this.posts.concat(res.body.posts)
     this.setState({
@@ -82,7 +82,7 @@ export default class ListScreen extends Component {
   }
 
   goToDetail(post) {
-    this.props.navigation.navigate('Detail', {
+    this.props.navigation.navigate('DetailScreen', {
       name: post.name, number: post.number, body_html: post.body_html
     })
   }
@@ -125,7 +125,9 @@ export default class ListScreen extends Component {
                 style={{width: 44, height: 44, marginRight: 12, borderRadius: 22}}
               />
               <View style={styles.content}>
-                <Text style={styles.category}>{row.category}</Text>
+                {row.category &&
+                  <Text style={styles.category}>{row.category}</Text>
+                }
                 <Text style={row.wip ? styles.wipTitle : styles.title}>
                   { row.wip ?
                     <Text style={styles.wipLabel}> WIP </Text> : false
@@ -175,9 +177,10 @@ const styles = StyleSheet.create({
     flex: 1,
     borderBottomColor: '#ddd', //'#F0F0F0',
     borderBottomWidth: StyleSheet.hairlineWidth,
-    minHeight: 44,
+    minHeight: 44 + 16,
     paddingRight: 12,
     paddingBottom: 8,
+    justifyContent: 'center'
   },
   category: {
     color: '#9DA4AF',
@@ -199,9 +202,6 @@ const styles = StyleSheet.create({
   wipLabel: {
     backgroundColor: '#eee',
     fontSize: 12,
-    paddingTop: 1,
-    paddingBottom: 3,
-    textAlign: 'center',
   },
   createdBy: {
     color: '#9DA4AF',
@@ -218,19 +218,7 @@ const styles = StyleSheet.create({
 
 export class RecentListScreen  extends ListScreen {
   static navigationOptions = {
-    tabBarLabel: 'Home',
     title: 'Recent Posts',
-    tabBarIcon: ({ tintColor }) => (
-      <MaterialIcons
-        name='home'
-        size={29}
-        color={tintColor}
-      />
-    )
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   navigationParams() {
@@ -240,19 +228,7 @@ export class RecentListScreen  extends ListScreen {
 
 export class StarredListScreen  extends ListScreen {
   static navigationOptions = {
-    tabBarLabel: 'Starred',
     title: 'Starred Posts',
-    tabBarIcon: ({ tintColor }) => (
-      <MaterialIcons
-        name='star'
-        size={28}
-        color={tintColor}
-      />
-    )
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   navigationParams() {
@@ -262,19 +238,7 @@ export class StarredListScreen  extends ListScreen {
 
 export class WatchedListScreen  extends ListScreen {
   static navigationOptions = {
-    tabBarLabel: 'Watching',
-    title: 'Watching Posts',
-    tabBarIcon: ({ tintColor }) => (
-      <MaterialIcons
-        name='visibility'
-        size={28}
-        color={tintColor}
-      />
-    )
-  }
-
-  constructor(props) {
-    super(props)
+    title: 'Watched Posts',
   }
 
   navigationParams() {

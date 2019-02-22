@@ -1,72 +1,16 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Linking, Button, Image, Platform, StatusBar } from 'react-native'
 import store from 'react-native-simple-store'
-import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation'
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
 import Frisbee from 'frisbee'
 import Config from './config.js'
-import { Constants, LinearGradient, AuthSession } from 'expo'
-import BottomNavigation from 'react-native-material-bottom-navigation'
+import { LinearGradient, AuthSession } from 'expo'
 
-// import PostListView from './src/components/PostListView.js'
-import ListScreen, {
-  RecentListScreen,
-  StarredListScreen,
-  WatchedListScreen
-} from './src/screens/ListScreen.js'
-import DetailScreen from './src/screens/DetailScreen.js'
-import TeamScreen from './src/screens/TeamScreen.js'
+import NavigationContainer from './NavigationContainer'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
-
-// ex. exp://exp.host/@community/with-webbrowser-redirect/+
-const linkingUri = Constants.linkingUri
-// const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'esa.io/authorize' : linkingUri.replace('+', '')
-const redirectUri = linkingUri.replace('+', 'esa.io/authorize')
-
-const MainScreenNavigator = TabNavigator(
-  {
-    Recent: { screen: RecentListScreen },
-    Starred: { screen: StarredListScreen },
-    Watched: { screen: WatchedListScreen },
-    Team: { screen: TeamScreen }
-  },
-  {
-    tabBarComponent: BottomNavigation, //TabBarBottom,
-    tabBarPosition: 'bottom',
-    tabBarOptions: {
-      activeTintColor: '#09918A',
-      inactiveTintColor: '#aaa',
-      style: {
-        borderTopWidth: 1,
-        borderTopColor: '#eee'
-      }
-    }
-  }
-)
-
-const Navigator = StackNavigator(
-  {
-    Main: { screen: MainScreenNavigator },
-    Detail: { screen: DetailScreen }
-  },
-  {
-    navigationOptions: ({ navigation }) => {
-      return Platform.OS == 'android'
-        ? {
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: '#09918A'
-            },
-            headerTitleStyle: {
-              color: 'white'
-            }
-          }
-        : {}
-    }
-  }
-)
 
 export default class App extends React.Component {
   state = {
@@ -157,7 +101,7 @@ export default class App extends React.Component {
         ) : (
           <StatusBar barStyle="dark-content" />
         )}
-        <Navigator />
+        <NavigationContainer />
       </View>
     ) : (
       <View style={styles.container}>
