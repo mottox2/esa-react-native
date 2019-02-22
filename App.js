@@ -6,68 +6,11 @@ import Frisbee from 'frisbee'
 import Config from './config.js'
 import { LinearGradient, AuthSession } from 'expo'
 
-// import PostListView from './src/components/PostListView.js'
-import ListScreen, {
-  RecentListScreen,
-  StarredListScreen,
-  WatchedListScreen
-} from './src/screens/ListScreen.js'
-import DetailScreen from './src/screens/DetailScreen.js'
-import TeamScreen from './src/screens/TeamScreen.js'
+import NavigationContainer from './NavigationContainer'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
 })
-
-// ex. exp://exp.host/@community/with-webbrowser-redirect/+
-const MainScreenNavigator = createBottomTabNavigator({
-  Recent: RecentListScreen,
-  Starred: StarredListScreen,
-  Watched: WatchedListScreen,
-  Team: TeamScreen
-},
-{
-  tabBarPosition: 'bottom',
-  tabBarOptions: {
-    activeTintColor: '#09918A',
-    inactiveTintColor: '#aaa',
-    style: {
-      borderTopWidth: 1,
-      borderTopColor: '#eee'
-    }
-  }
-})
-
-const Navigator = createStackNavigator(
-  {
-    Main: MainScreenNavigator,
-    Detail: DetailScreen
-  },
-  {
-    navigationOptions: ({ navigation }) => {
-      let routeName = ''
-      if (navigation.state.routeName === 'Main') {
-        routeName = navigation.state.routes[navigation.state.index].routeName;
-      } else {
-        routeName = navigation.state.routeName
-      }
-      const headerTitle = routeName
-      return {...(Platform.OS == 'android'
-        ? {
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: '#09918A'
-            },
-            headerTitleStyle: {
-              color: 'white'
-            }
-          }
-        : {}), headerTitle}
-    }
-  }
-)
-
-const Container = createAppContainer(Navigator)
 
 export default class App extends React.Component {
   state = {
@@ -158,7 +101,7 @@ export default class App extends React.Component {
         ) : (
           <StatusBar barStyle="dark-content" />
         )}
-        <Container />
+        <NavigationContainer />
       </View>
     ) : (
       <View style={styles.container}>
