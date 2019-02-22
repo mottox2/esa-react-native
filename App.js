@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Linking, Button, Image, Platform, StatusBar } from 'react-native'
 import store from 'react-native-simple-store'
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
+import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
 import Frisbee from 'frisbee'
 import Config from './config.js'
 import { LinearGradient, AuthSession } from 'expo'
@@ -66,6 +66,8 @@ const Navigator = createStackNavigator(
     }
   }
 )
+
+const Container = createAppContainer(Navigator)
 
 export default class App extends React.Component {
   state = {
@@ -156,7 +158,7 @@ export default class App extends React.Component {
         ) : (
           <StatusBar barStyle="dark-content" />
         )}
-        <Navigator />
+        <Container />
       </View>
     ) : (
       <View style={styles.container}>
