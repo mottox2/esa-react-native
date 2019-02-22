@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
-  View,
-  ListView,
-  Image,
   WebView,
   Linking,
+  View,
 } from 'react-native';
 import store from 'react-native-simple-store';
 

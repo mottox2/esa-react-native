@@ -5,20 +5,14 @@ import {
   View,
   ListView,
   Image,
-  TouchableNativeFeedback,
   TouchableHighlight,
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import { MaterialIcons } from '@expo/vector-icons';
-
 
 import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
-
-// import Router from '../navigation/Router.js'
-import Config from '../../config.js'
 
 const api = new Frisbee({
   baseURI: 'https://api.esa.io'
