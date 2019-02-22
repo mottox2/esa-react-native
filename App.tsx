@@ -4,7 +4,7 @@ import store from 'react-native-simple-store'
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
 import Frisbee from 'frisbee'
 import Config from './config.js'
-import { Constants, LinearGradient, AuthSession } from 'expo'
+import { LinearGradient, AuthSession } from 'expo'
 
 // import PostListView from './src/components/PostListView.js'
 import ListScreen, {
@@ -20,10 +20,6 @@ const api = new Frisbee({
 })
 
 // ex. exp://exp.host/@community/with-webbrowser-redirect/+
-const linkingUri = Constants.linkingUri
-// const redirectUri = linkingUri.match(/^wing/) ? linkingUri.replace('+', '') + 'esa.io/authorize' : linkingUri.replace('+', '')
-const redirectUri = linkingUri.replace('+', 'esa.io/authorize')
-
 const MainScreenNavigator = createBottomTabNavigator({
   Recent: RecentListScreen,
   Starred: StarredListScreen,
@@ -49,7 +45,12 @@ const Navigator = createStackNavigator(
   },
   {
     navigationOptions: ({ navigation }) => {
-      const { routeName } = navigation.state.routes[navigation.state.index];
+      let routeName = ''
+      if (navigation.state.routeName === 'Main') {
+        routeName = navigation.state.routes[navigation.state.index].routeName;
+      } else {
+        routeName = navigation.state.routeName
+      }
       const headerTitle = routeName
       return {...(Platform.OS == 'android'
         ? {
