@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
-import { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen.js'
-import DetailScreen from './src/screens/DetailScreen.js'
-import TeamScreen from './src/screens/TeamScreen.js'
+import { RecentListScreen, StarredListScreen, WatchedListScreen } from './src/screens/ListScreen'
+import DetailScreen from './src/screens/DetailScreen'
+import TeamScreen from './src/screens/TeamScreen'
 
 import { MaterialIcons } from '@expo/vector-icons';
 
