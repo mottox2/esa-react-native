@@ -1,16 +1,11 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Linking, Button, Image, Platform, StatusBar } from 'react-native'
 import store from 'react-native-simple-store'
-import { createBottomTabNavigator, createStackNavigator, createAppContainer } from 'react-navigation'
-import Frisbee from 'frisbee'
 import Config from './config.js'
 import { LinearGradient, AuthSession } from 'expo'
 
 import NavigationContainer from './NavigationContainer'
-
-const api = new Frisbee({
-  baseURI: 'https://api.esa.io'
-})
+import Esa from 'esa-node';
 
 export default class App extends React.Component {
   state = {
@@ -68,7 +63,6 @@ export default class App extends React.Component {
     let headers = new Headers()
     headers.append('Accept', 'application/json')
     headers.append('Content-Type', 'application/json')
-
     const response = await fetch('https://api.esa.io/oauth/token', {
       method: 'POST',
       headers: headers,
@@ -82,13 +76,15 @@ export default class App extends React.Component {
       return
     }
     const accessToken = responseJson.access_token
+    const api = new Esa(accessToken)
+    const user = await api.user({ include: 'teams' })
     await store.save('accessToken', accessToken)
-    const user = await api.jwt(accessToken).get('/v1/user?include=teams')
-    await store.save('user', user.body)
-    if (user.body.teams.length == 0) {
+    await store.save('user', user)
+    if (!user.teams) { return }
+    if (user.teams.length == 0) {
       console.log('閲覧出来る記事がありません。esa.ioへの登録が必要です。')
     } else {
-      await store.save('teamName', user.body.teams[0].name)
+      await store.save('teamName', user.teams[0].name)
       this.setState({ accessToken })
     }
   }
