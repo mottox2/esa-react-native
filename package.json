@@ -14,21 +14,27 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "esa-node": "^0.2.2",
     "expo": "^32.0.0",
-    "frisbee": "^1.6.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-infinite-scroll-view": "^0.4.5",
     "react-native-material-bottom-navigation": "^0.9.0",
     "react-native-simple-store": "^1.3.0",
-    "react-navigation": "~3.0.9"
+    "react-navigation": "~3.0.9",
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
     "@babel/plugin-transform-react-jsx-source": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
+    "@types/expo": "^32.0.3",
+    "@types/react": "^16.8.4",
+    "@types/react-native": "^0.57.37",
+    "@types/react-navigation": "^3.0.3",
     "babel-preset-expo": "^5.0.0",
-    "jest-expo": "~32.0.0"
+    "jest-expo": "~32.0.0",
+    "typescript": "^3.3.3333"
   }
 }

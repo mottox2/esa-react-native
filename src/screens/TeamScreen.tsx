@@ -5,23 +5,12 @@ import {
   View,
   ListView,
   Image,
-  TouchableNativeFeedback,
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
-import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import { NavigationActions } from 'react-navigation'
 import { MaterialIcons } from '@expo/vector-icons';
-
-
-import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
-
-import Config from '../../config.js'
-
-const api = new Frisbee({
-  baseURI: 'https://api.esa.io'
-})
 
 export default class TeamScreen extends Component {
   static navigationOptions = {

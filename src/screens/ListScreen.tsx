@@ -5,24 +5,13 @@ import {
   View,
   ListView,
   Image,
-  TouchableNativeFeedback,
   TouchableHighlight,
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
-import { MaterialIcons } from '@expo/vector-icons';
-
-
-import Frisbee from 'frisbee';
 import store from 'react-native-simple-store';
-
-// import Router from '../navigation/Router.js'
-import Config from '../../config.js'
-
-const api = new Frisbee({
-  baseURI: 'https://api.esa.io'
-})
+import Esa from 'esa-node'
 
 export default class ListScreen extends Component {
   static navigationOptions = {
@@ -40,11 +29,14 @@ export default class ListScreen extends Component {
   }
 
   async fetchPosts(query) {
-    const res = await api.jwt(this.accessToken).get(this.requestPath, { body: query })
-    this.nextPage = res.body.next_page
+    const api = new Esa(this.accessToken, this.teamName)
+    const res = await api.posts(this.query)
+    // requestPath
+
+    this.nextPage = res.next_page
     // console.log(res.body)
     if (!this.nextPage) this.setState({ canLoadMore: false })
-    this.posts = this.posts.concat(res.body.posts)
+    this.posts = this.posts.concat(res.posts)
     this.setState({
       isLoading: false,
       isLoadingMore: false,
@@ -70,9 +62,9 @@ export default class ListScreen extends Component {
   async componentDidMount() {
     this.accessToken = await store.get('accessToken')
     const teamName = await store.get('teamName')
+    this.teamName = teamName
     this.requestPath = '/v1/teams/' + teamName + '/posts'
 
-    // Set query
     const user = await store.get('user')
     const screenName = user.screen_name
     this.query = this.navigationParams(screenName)
